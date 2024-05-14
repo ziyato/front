@@ -4,22 +4,21 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
-import LoginPage from './pages/LoginPage';
+import LoginPage from "./pages/LoginPage.jsx";
 import MyPage from './pages/MyPage';
-import NavigationBar from './components/NavigationBar';
+import Header from './components/Header';
 import './App.css';
 
 function App() {
   return (
     <div className="App">
-      <div className="flex"> header</div>
       
-        <NavigationBar />
+        <Header />
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/login" element={<LoginPage />} />
-          <Route path="/my-page" element={<MyPage />} />
+          <Route path="/mypage" element={<MyPage />} />
 
           <Route path="*" element={<div> 404입니다 </div>} />
         </Routes>
