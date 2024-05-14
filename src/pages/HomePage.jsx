@@ -1,12 +1,24 @@
 // HomePage.jsx
 
 import React from 'react';
+import './HomePage.css';
+import {headers, FoodTable} from '../components/FoodTable.jsx';
+
+
 
 const HomePage = () => {
+
   return (
-    <div>
-      <h2>홈페이지</h2>
-      <p>환영합니다! 이곳은 우리의 홈페이지입니다.</p>
+    <div className="HomePage">
+      <div className = 'searchSection'>
+        <select className='dropdown'>
+          <option value='foodName'>식품명</option>
+          <option value='category'>카테고리</option>
+        </select>
+        <input type='text' className='searchBar'></input>
+        <button type='button' className='searchButton'></button>
+      </div>
+      <FoodTable headers = {headers}/>
     </div>
   );
 };
