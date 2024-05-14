@@ -13,7 +13,7 @@ function App() {
   return (
     <div className="App">
       <div className="flex"> header</div>
-      <Router>
+      
         <NavigationBar />
         <Routes>
           <Route path="/" element={<HomePage />} />
@@ -23,7 +23,7 @@ function App() {
 
           <Route path="*" element={<div> 404입니다 </div>} />
         </Routes>
-      </Router>
+      
     </div>
   );
 }

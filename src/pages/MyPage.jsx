@@ -1,12 +1,17 @@
 // MyPage.jsx
 
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const MyPage = () => {
   return (
     <div>
-      <h2>나의 페이지</h2>
-      <p>이 페이지는 사용자의 개인 정보나 설정 등을 보여주는 페이지입니다.</p>
+      <h1>나의 페이지</h1>
+      <Link to="/">홈페이지로 이동</Link>
+      <br />
+      <Link to="/about">About 페이지로 이동</Link>
+      <br />
+      <Link to="/login">로그인 페이지로 이동</Link>
     </div>
   );
 };
