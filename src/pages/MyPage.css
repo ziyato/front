@@ -1,0 +1,63 @@
+.my-page-container {
+  display: flex; /* Flexbox 레이아웃 사용 */
+  flex-direction: column;
+  padding: 0px 180px;
+}
+
+.left-section {
+  
+  flex: 1; 
+  padding: 50px 50px;
+  justify-content: center;
+  align-items: center;
+}
+
+.right-section {
+  flex: 10; /* 오른쪽 영역이 왼쪽 영역보다 2배 더 크게 설정 */
+  padding: 50px 10px;
+}
+
+.user-photo img {
+  width: 250px; /* 프로필 사진 크기 조정 */
+  height: 404px;
+  border-radius: 5%; /* 원형 모양으로 프로필 사진 표시 */
+  object-fit : cover;
+  background-color: bisque;
+}
+
+.change-photo-btn {
+  margin-top: 10px; /* 사진 변경 버튼과 프로필 사진 사이에 간격 추가 */
+  padding: 10px 25px;
+  width: 250px;
+  text-align: center;
+  background-color: rgb(54, 52, 90); /* 배경색 */
+  color: white; /* 글자색 */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer; /* 마우스 커서를 포인터로 변경하여 클릭 가능한 상태로 표시 */
+  transition: background-color 0.3s;
+}
+
+.change-photo-btn:hover {
+  background-color: #108639; /* 마우스 호버 시 배경색 변경 */
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column; /* 세로로 항목들을 나열하기 위해 컬럼 방향으로 설정 */
+}
+
+.info-item {
+  margin-bottom: 10px; /* 각 사용자 정보 항목 사이에 간격 추가 */
+}
+
+.info-item label {
+  font-weight: bold; /* 정보 레이블에 굵은 글꼴 적용 */
+}
+
+.notification-settings {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 50px 0px; /* 왼쪽, 오른쪽, 알림 설정 각각의 상하 여백 조절 */
+}
