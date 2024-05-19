@@ -17,7 +17,6 @@ const HomePage = () => {
     const [searchKeyword, setSearchKeyword] = useState(''); // 검색 키워드 상태를 빈 문자열로 설정
     const [searchCriteria, setSearchCriteria] = useState('food_name'); // 검색 기준 초기값 식품명으로 설정
 
-
     // DB에서 데이터를 가져오는 비동기 함수
     const getDataFromDB = async (user_id) => {
 
@@ -52,7 +51,7 @@ const HomePage = () => {
                 category: "밥",
                 item_amount: 1,
                 purchase_date: "2024-04-17T15:00:00.000Z",
-                expiration_date: "2024-05-16T15:00:00.000Z",
+                expiration_date: "2024-05-19T15:00:00.000Z",
                 user_id: 4
             }
         ];
@@ -72,34 +71,36 @@ const HomePage = () => {
         fetchData(); // 데이터 가져오는 함수 호출
     }, []);
 
-    // 아이템 삭제, 삭제 후 아이템 상태 업데이트 기능 함수
-    const handleDelete = (selectedItems) => {
-        // 선택된 항목 제외한 나머지 항목 필터링
-        const newItems = items.filter(item => !selectedItems.includes(item.food_name));
-        setItems(newItems); // 상태 업데이트
-        setFilteredItems(newItems); // 필터링된 항목 업데이트
-    };
-
     // 검색 키워드 변경 시 호출되는 함수
     const handleSearchKeywordChange = (e) => {
         setSearchKeyword(e.target.value);
     };
 
+
+    // 아이템 삭제, 삭제 후 아이템 상태 업데이트 기능 함수
+    const handleDelete = (selectedItems) => {
+        const selectedItemIds = selectedItems.map(item => item.food_id); // 선택된 항목의 ID 배열 생성
+        // 선택된 항목 제외한 나머지 항목 필터링
+        const newItems = items.filter(item => !selectedItemIds.includes(item.food_id));
+        setItems(newItems); // 상태 업데이트
+        setFilteredItems(newItems); // 필터링된 항목 업데이트 후 검색 수행
+    };
+    
     // 검색 버튼 클릭 또는 엔터 키 입력 시 호출되는 함수
     const handleSearch = () => {
-      // 검색어 소문자로 변환하여 저장
-      const keyword = searchKeyword.toLowerCase();
-      // 검색 기준을 선택한 기준으로 설정
-      const criteria = searchCriteria;
-      // 아이템 필터링 후 검색어와 일치하는 항목 찾기
-      const filtered = items.filter(item => {
-          if (item[criteria]) {
-              return item[criteria].toLowerCase().includes(keyword);
-          }
-          return false;
-      });
-      // 검색된 결과 상태에 반영
-      setFilteredItems(filtered);
+        // 검색어 소문자로 변환하여 저장
+        const keyword = searchKeyword.toLowerCase();
+        // 검색 기준을 선택한 기준으로 설정
+        const criteria = searchCriteria;
+        // 아이템 필터링 후 검색어와 일치하는 항목 찾기
+        const filtered = items.filter(item => {
+            if (item[criteria]) {
+                return item[criteria].toLowerCase().includes(keyword);
+            }
+            return false;
+        });
+        // 검색된 결과 상태에 반영
+        setFilteredItems(filtered);
     };
 
     return (
