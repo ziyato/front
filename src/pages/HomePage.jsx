@@ -1,68 +1,70 @@
 import React, { useState, useEffect } from 'react';
 import './HomePage.css';
 import { headers, FoodTable } from '../components/FoodTable.jsx';
-import pic1 from '../assets/콜라.jpg';
-import pic2 from '../assets/마라탕.jpg';
+import pic1 from "../assets/햇반.jpg"; 
+import pic2 from "../assets/카레.jpg";
 
-// // 사용자 이름 예시
-// const username = '민지';
-// // 사용자 이메일 예시
-// const userID = 'kmjlso1028@naver.com';
-
+// 유저 정보
 const userInfo = {
-  username: '민지',
-  userID: 'kmjlso1028@naver.com',
-  알림기준일수: 3
-};
+    user_name: "민지",
+    user_id: 4,
+    알림기준일수: 3
+  };
 
 const HomePage = () => {
-    // 초기 아이템(식품) 상태를 빈 배열로 설정
-    const [items, setItems] = useState([]);
-    // 검색된 아이템(식품) 상태를 빈 배열로 설정
-    const [filteredItems, setFilteredItems] = useState([]);
-    // 검색 키워드 상태를 빈 문자열로 설정
-    const [searchKeyword, setSearchKeyword] = useState('');
-    // 검색 기준 초기값 'foodName'으로 설정
-    const [searchCriteria, setSearchCriteria] = useState('foodName');
+    const [items, setItems] = useState([]); // 초기 아이템(식품) 상태를 빈 배열로 설정
+    const [filteredItems, setFilteredItems] = useState([]); // 검색된 아이템(식품) 상태를 빈 배열로 설정
+    const [searchKeyword, setSearchKeyword] = useState(''); // 검색 키워드 상태를 빈 문자열로 설정
+    const [searchCriteria, setSearchCriteria] = useState('food_name'); // 검색 기준 초기값 식품명으로 설정
+
 
     // DB에서 데이터를 가져오는 비동기 함수
-    const getDataFromDB = async (userID) => {
-        // 실제 DB 호출 로직을 여기에 추가
+    const getDataFromDB = async (user_id) => {
 
-        // 예시 데이터
-        const data = {
-            'kmjlso1028@naver.com': [
-                {
-                    foodPic: pic1,
-                    foodName: '코카콜라',
-                    category: '음료수',
-                    expirationDate: '2024-05-20',
-                    itemAmount: 2
-                },
-                {
-                    foodPic: pic2,
-                    foodName: '마라탕',
-                    category: '존맛탱',
-                    expirationDate: '2024-05-10',
-                    itemAmount: 1
-                },
-                {
-                    foodName: '오징어 젓갈',
-                    category: '반찬',
-                    expirationDate: '2024-05-29',
-                    itemAmount: 1
-                }
-            ]
-        };
+        // 실제 DB 호출 로직을 여기에 추가하기
 
-        return data[userID] || []; // userEmail에 해당하는 데이터를 반환, 없으면 빈 배열 반환
+        // 예시 데이터 객체 
+        const data = [
+            {
+                food_id: 1,
+                food_name: "햇반",
+                food_pic: pic1,
+                category: "밥",
+                item_amount: 1,
+                purchase_date: "2024-02-19T15:00:00.000Z",
+                expiration_date: "2024-12-11T15:00:00.000Z",
+                user_id: 4
+            },
+            {
+                food_id: 5,
+                food_name: "카레이름",
+                food_pic: pic2,
+                category: "카테카테",
+                item_amount: 2,
+                purchase_date: "2024-04-09T15:00:00.000Z",
+                expiration_date: "2024-05-17T15:00:00.000Z",
+                user_id: 4
+            },
+            {
+                food_id: 3,
+                food_name: "육회비빔밥",
+                food_pic: "",
+                category: "밥",
+                item_amount: 1,
+                purchase_date: "2024-04-17T15:00:00.000Z",
+                expiration_date: "2024-05-16T15:00:00.000Z",
+                user_id: 4
+            }
+        ];
+
+        return data.filter(item => item.user_id === user_id); // user_id에 해당하는 데이터 반환, 없으면 빈 배열 반환
     };
 
     // 컴포넌트가 마운트될 때 데이터 로드
     useEffect(() => {
         // 비동기 데이터 가져오기 함수
         const fetchData = async () => {
-            const data = await getDataFromDB(userInfo.userID); // 비동기 함수 호출하여 데이터 가져오기
+            const data = await getDataFromDB(userInfo.user_id); // 비동기 함수 호출하여 데이터 가져오기
             setItems(data); // 상태 업데이트
             setFilteredItems(data); // 초기 필터링된 항목 설정 (검색할 때 필터링 됨)
         };
@@ -70,15 +72,15 @@ const HomePage = () => {
         fetchData(); // 데이터 가져오는 함수 호출
     }, []);
 
-    // 삭제 기능 함수
+    // 아이템 삭제, 삭제 후 아이템 상태 업데이트 기능 함수
     const handleDelete = (selectedItems) => {
-        // 선택된 항목을 제외한 나머지 항목 필터링
-        const newItems = items.filter(item => !selectedItems.includes(item.foodName));
+        // 선택된 항목 제외한 나머지 항목 필터링
+        const newItems = items.filter(item => !selectedItems.includes(item.food_name));
         setItems(newItems); // 상태 업데이트
         setFilteredItems(newItems); // 필터링된 항목 업데이트
     };
 
-    // 검색 키워드 변경 시 호출되는 함수 (foodName <-> category)
+    // 검색 키워드 변경 시 호출되는 함수
     const handleSearchKeywordChange = (e) => {
         setSearchKeyword(e.target.value);
     };
@@ -108,7 +110,7 @@ const HomePage = () => {
                     className='dropdown'
                     onChange={(e) => setSearchCriteria(e.target.value)}
                 >
-                    <option value='foodName'>식품명</option>
+                    <option value='food_name'>식품명</option>
                     <option value='category'>카테고리</option>
                 </select>
                 <input 
@@ -126,10 +128,10 @@ const HomePage = () => {
                 </button>
             </div>
             <div className='tableInfo'>
-                <span> {userInfo.username} 님의 냉장고 </span> {/* DB의 username 이랑 연결해야 함 */}
+                <span> {userInfo.user_name} 님의 냉장고 </span> {/* DB의 username 이랑 연결해야 함 */}
                 <div>
                     <button type='button' className='recipeSearch'>레시피 검색</button>
-                    <button type='button' className='deleteFood' onClick={() => {FoodTable.handleDelete()}}>
+                    <button type='button' className='deleteFood' onClick={() => FoodTable.handleDelete()}>
                       삭제
                     </button>
                 </div>
@@ -137,6 +139,7 @@ const HomePage = () => {
             <FoodTable
                 headers={headers}
                 items={filteredItems}
+                setItems={setItems}
                 onDelete={handleDelete}
                 userInfo={userInfo}
             />

@@ -1,63 +1,168 @@
 .my-page-container {
-  display: flex; /* Flexbox 레이아웃 사용 */
+  display: flex;
   flex-direction: column;
   padding: 0px 180px;
 }
 
 .left-section {
-  
-  flex: 1; 
+  flex: 1;
   padding: 50px 50px;
   justify-content: center;
   align-items: center;
 }
 
 .right-section {
-  flex: 10; /* 오른쪽 영역이 왼쪽 영역보다 2배 더 크게 설정 */
+  flex: 10;
   padding: 50px 10px;
 }
 
 .user-photo img {
-  width: 250px; /* 프로필 사진 크기 조정 */
+  width: 250px;
   height: 404px;
-  border-radius: 5%; /* 원형 모양으로 프로필 사진 표시 */
-  object-fit : cover;
+  border-radius: 5%;
+  object-fit: cover;
   background-color: bisque;
 }
 
 .change-photo-btn {
-  margin-top: 10px; /* 사진 변경 버튼과 프로필 사진 사이에 간격 추가 */
+  margin-top: 10px;
   padding: 10px 25px;
   width: 250px;
   text-align: center;
-  background-color: rgb(54, 52, 90); /* 배경색 */
-  color: white; /* 글자색 */
+  background-color: rgb(52, 50, 88);
+  color: white;
   border: none;
   border-radius: 5px;
-  cursor: pointer; /* 마우스 커서를 포인터로 변경하여 클릭 가능한 상태로 표시 */
+  cursor: pointer;
   transition: background-color 0.3s;
 }
 
-.change-photo-btn:hover {
-  background-color: #108639; /* 마우스 호버 시 배경색 변경 */
+.change-photo-btn:active {
+  background-color: #108639;
+}
+
+.file-input {
+  display: none;
 }
 
 .user-info {
   display: flex;
-  flex-direction: column; /* 세로로 항목들을 나열하기 위해 컬럼 방향으로 설정 */
+  flex-direction: column;
 }
 
 .info-item {
-  margin-bottom: 10px; /* 각 사용자 정보 항목 사이에 간격 추가 */
+  margin-bottom: 10px;
 }
 
 .info-item label {
-  font-weight: bold; /* 정보 레이블에 굵은 글꼴 적용 */
+  font-weight: bold;
 }
 
 .notification-settings {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  padding: 50px 0px; /* 왼쪽, 오른쪽, 알림 설정 각각의 상하 여백 조절 */
+  padding: 50px 0;
+}
+
+/* Toggle switch container */
+.toggleSwitch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+/* Hide the default checkbox */
+.toggleSwitch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.toggleButton {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: .4s;
+  border-radius: 34px;
+}
+
+/* The circle inside the slider */
+.toggleButton:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%;
+}
+
+/* Checked state styles */
+input:checked + .toggleSwitch .toggleButton {
+  background-color: #2196F3;
+}
+
+input:checked + .toggleSwitch .toggleButton:before {
+  transform: translateX(26px);
+}
+
+/* Date select styles */
+.date-select-container {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.date-select-label {
+  margin-right: 10px;
+  font-weight: bold;
+}
+
+.date-select-box {
+  border: 1px solid #ccc;
+  padding: 5px;
+  border-radius: 4px;
+}
+
+.date-select-box.disabled {
+  background-color: #f0f0f0;
+  color: #a0a0a0;
+  cursor: not-allowed;
+}
+
+.cancel-button {
+  padding: 5px 10px;
+  background-color: #ccc;
+  color: #000000;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.cancel-button:hover {
+  background-color: #999;
+}
+
+.save-button {
+  padding: 5px 10px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.save-button:hover {
+  background-color: #0056b3;
 }
