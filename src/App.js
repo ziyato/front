@@ -8,6 +8,7 @@ import LoginPage from "./pages/LoginPage.jsx";
 import MyPage from './pages/MyPage';
 import Header from './components/Header';
 import './App.css';
+import RegisterUser from './pages/RegisterUser.js';
 
 function App() {
   return (
