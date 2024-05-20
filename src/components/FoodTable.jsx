@@ -20,7 +20,7 @@ const calculateDaysLeft = (expirationDate) => {
 };
 
 // FoodTable 컴포넌트 정의
-function FoodTable({ headers, items, onDelete, userInfo}) {
+function FoodTable({ headers, items, onDelete, userInfo, s}) {
     // userInfo로부터 알림기준일수 추출
     const {알림기준일수} = userInfo;
 
@@ -66,8 +66,8 @@ function FoodTable({ headers, items, onDelete, userInfo}) {
 
     // 삭제 버튼 클릭 시 호출되는 함수
     const handleDelete = () => {
-        const selectedItems = Array.from(selection); // 선택된 항목 배열로 변환
-        onDelete(selectedItems); // 선택된 항목 삭제 처리
+        const selectedItems = items.filter(item => selection.includes(item.food_id)); // 선택된 항목만 필터링하여 배열 생성
+        onDelete(selectedItems); // 선택된 항목 삭제
         setSelection([]); // 선택 상태 초기화
 
         // 체크박스 선택 해제
@@ -81,12 +81,12 @@ function FoodTable({ headers, items, onDelete, userInfo}) {
     FoodTable.handleDelete = handleDelete;
     
     // 체크박스 선택 상태 변경 함수
-    const onChangeSelect = (item) => {
+    const onChangeSelect = (food_id) => {
         let newSelection;
-        if (selection.includes(item)) {
-            newSelection = selection.filter(selectedItem => selectedItem !== item); // 이미 선택된 항목이면 선택 해제
+        if (selection.includes(food_id)) {
+            newSelection = selection.filter(selected_id => selected_id !== food_id); // 이미 선택된 항목이면 선택 해제
         } else {
-            newSelection = [... selection, item]; // 선택되지 않은 항목이면 선택 추가
+            newSelection = [...selection, food_id]; // 선택되지 않은 항목이면 선택 추가
         }
         setSelection(newSelection); // 선택 상태 업데이트
     };
@@ -94,9 +94,10 @@ function FoodTable({ headers, items, onDelete, userInfo}) {
     // 전체 선택 체크박스 상태 변경 함수
     const onChangeSelectAll = (e) => {
         if (e.target.checked) {
-            setSelection(items);
+            const allCheckedSelection = items.map(item => item.food_id); // 모든 아이템의 food_id 배열 추출
+            setSelection(allCheckedSelection); // 전체 선택 상태
         } else {
-            setSelection([]);
+            setSelection([]); // 선택 해제 상태
         }
     };
 
@@ -138,13 +139,13 @@ function FoodTable({ headers, items, onDelete, userInfo}) {
                         items.map((item, index) => (
                         <tr
                             key={index}
-                            className={selection.includes(item) ? 'select_row' : ''}     
+                            className={selection.includes(item.food_id) ? 'select_row' : ''}     
                         >
                             <td>
                                 <input
                                     type="checkbox"
-                                    checked={selection.includes(item)}
-                                    onChange={() => onChangeSelect(item)}
+                                    checked={selection.includes(item.food_id)}
+                                    onChange={() => onChangeSelect(item.food_id)}
                                 />
                             </td>
                             {headerKey.map((key, idx) => (
