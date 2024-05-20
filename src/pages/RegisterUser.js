@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import InputError from "./InputError";
+//import InputError from "./InputError";
 
 function RegisterUser() {
   return (
