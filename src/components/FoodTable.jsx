@@ -31,13 +31,9 @@ function FoodTable({
   sortDirection,
   setSortCriteria,
   setSortDirection,
-  setSelectedItems,
 }) {
   const { alert_date } = userInfo; // userInfo로부터 알림 기준 일수 추출
   const [selection, setSelection] = useState([]); // 선택된 항목들 관리하는 state, food_id 담김
-  useEffect(() => {
-    setSelectedItems(selection); // 선택된 항목 업데이트
-  }, [selection, setSelectedItems]);
   const headerKey = headers.map((header) => header.value); // 헤더의 value 값 배열로 변환
 
   // 정렬 함수
@@ -79,15 +75,6 @@ function FoodTable({
     ); // 선택된 항목만 필터링하여 배열 생성
     onDelete(selectedItems); // 선택된 항목 삭제
     setSelection([]); // 선택 상태 초기화
-  };
-    const handleSelection = () => {
-      const selectedItems = items.filter((item) =>  
-        selection.includes(item.food_name)
-        
-      ); // 선택된 항목만 필터링하여 배열 생성  
-      setSelection(selectedItems);
-    };
-      // 선택 상태 초기화
 
     // 체크박스 선택 해제
     const checkboxes = document.querySelectorAll(
