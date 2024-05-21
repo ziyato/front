@@ -23,7 +23,6 @@ const HomePage = () => {
   const [searchCategory, setSearchCategory] = useState("food_name"); // 검색 기준 초기값 식품명으로 설정
   const [sortCriteria, setSortCriteria] = useState("expiration_date"); // 정렬 기준 초기값 유통기한으로 설정
   const [sortDirection, setSortDirection] = useState(true); // 정렬 방향 초기값 오름차순으로 설정
-  const [isModalOpen, setIsModalOpen] = useState(false); // 모달 열림 여부 상태
 
   //   async function searchData(searchCategory, searchKeyword) {
   //     try {
@@ -148,15 +147,6 @@ const HomePage = () => {
     setItems(items.filter((item) => !selectedItemIds.includes(item.food_id))); // 상태 업데이트
   };
 
-  const handleClick = () => {
-    setIsModalOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-  };
-
-
   return (
     <div className="HomePage">
         <div className="searchSection">
@@ -214,11 +204,10 @@ const HomePage = () => {
             </div>
         </div>
         <div className="addFood">
-            <button onClick={handleClick}>
+            <button>
                 +
             </button>
         </div>
-        {isModalOpen && <AddFoodModal isOpen={isModalOpen} onClose={handleCloseModal} />}
     </div>
   );
 };
