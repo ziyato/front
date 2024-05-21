@@ -7,7 +7,7 @@ import pic2 from "../assets/카레.jpg";
 import pic3 from "../assets/된찌.jpg";
 import pic4 from "../assets/마라탕.jpg";
 import pic5 from "../assets/탕후루.jpg";
-import ToastModal from '../components/ToastModal/ToastModal';
+import ToastModal from "../components/ToastModal/ToastModal";
 
 // 유저 정보 예시
 const userInfo = {
@@ -22,10 +22,10 @@ const HomePage = () => {
   const [searchCategory, setSearchCategory] = useState("food_name"); // 검색 기준 초기값 식품명으로 설정
   const [sortCriteria, setSortCriteria] = useState("expiration_date"); // 정렬 기준 초기값 유통기한으로 설정
   const [sortDirection, setSortDirection] = useState(true); // 정렬 방향 초기값 오름차순으로 설정
-  const [isModalOpen, setModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const openModal = () => setModalOpen(true);
-  const closeModal = () => setModalOpen(false);
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
 
   //   async function searchData(searchCategory, searchKeyword) {
   //     try {
@@ -152,65 +152,64 @@ const HomePage = () => {
 
   return (
     <div className="HomePage">
-        <div className="searchSection">
-            {/* 검색 기준 선택할 수 있는 드롭다운 */}
-            <select
-            className="dropdown"
-            onChange={(e) => setSearchCategory(e.target.value)}
-            >
-            <option value="food_name">식품명</option>
-            <option value="category">카테고리</option>
-            </select>
-            <input
-            type="text"
-            className="searchBar"
-            value={searchKeyword}
-            onChange={handleSearchKeywordChange}
-            //   onKeyPress={(e) => e.key === "Enter" && searchData(searchCategory, searchKeyword)}
-            />
-            <button
+      <div className="searchSection">
+        {/* 검색 기준 선택할 수 있는 드롭다운 */}
+        <select
+          className="dropdown"
+          onChange={(e) => setSearchCategory(e.target.value)}
+        >
+          <option value="food_name">식품명</option>
+          <option value="category">카테고리</option>
+        </select>
+        <input
+          type="text"
+          className="searchBar"
+          value={searchKeyword}
+          onChange={handleSearchKeywordChange}
+          //   onKeyPress={(e) => e.key === "Enter" && searchData(searchCategory, searchKeyword)}
+        />
+        <button
+          type="button"
+          className="searchButton"
+          //   onClick={searchData(searchCategory, searchKeyword)}
+        />
+      </div>
+      <div className="tableInfo">
+        <span> 👤 {userInfo.user_name} 님의 냉장고 </span>
+        {/* DB의 username 이랑 연결해야 함 */}
+        <div>
+          <button type="button" className="recipeSearch">
+            레시피 검색
+          </button>
+          <button
             type="button"
-            className="searchButton"
-            //   onClick={searchData(searchCategory, searchKeyword)}
-            />
+            className="deleteFood"
+            onClick={() => FoodTable.handleDelete()}
+          >
+            삭제
+          </button>
         </div>
-        <div className="tableInfo">
-            <span> 👤 {userInfo.user_name} 님의 냉장고 </span>
-            {/* DB의 username 이랑 연결해야 함 */}
-            <div>
-                <button type="button" className="recipeSearch">
-                레시피 검색
-                </button>
-                <button
-                type="button"
-                className="deleteFood"
-                onClick={() => FoodTable.handleDelete()}
-                >
-                삭제
-                </button>
-            </div>
+      </div>
+      <div className="foodTableComponent">
+        <div className="scrollableBox">
+          <FoodTable
+            headers={headers}
+            items={items}
+            setItems={setItems}
+            onDelete={handleDelete}
+            userInfo={userInfo}
+            sortItems={sortItems}
+            sortCriteria={sortCriteria}
+            sortDirection={sortDirection}
+            setSortCriteria={setSortCriteria}
+            setSortDirection={setSortDirection}
+          ></FoodTable>
         </div>
-        <div className="foodTableComponent">
-            <div className="scrollableBox">
-                <FoodTable
-                    headers={headers}
-                    items={items}
-                    setItems={setItems}
-                    onDelete={handleDelete}
-                    userInfo={userInfo}
-                    sortItems={sortItems}
-                    sortCriteria={sortCriteria}
-                    sortDirection={sortDirection}
-                    setSortCriteria={setSortCriteria}
-                    setSortDirection={setSortDirection}
-                ></FoodTable>
-            </div>
-        </div>
-        <div className="addFood">
-            <button onClick={openModal}>+</button>
-      <ToastModal isOpen={isModalOpen} onClose={closeModal} />
-                
-        </div>
+      </div>
+      <div className="addFood">
+        <button onClick={openModal}>+</button>
+        <ToastModal isOpen={isModalOpen} onClose={closeModal} />
+      </div>
     </div>
   );
 };
