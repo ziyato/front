@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Link } from 'react-router-dom';
 import "./HomePage.css";
 import { headers, FoodTable } from "../components/FoodTable.jsx";
 
@@ -187,12 +186,9 @@ const HomePage = () => {
         <span> 👤 {userInfo.user_name} 님의 냉장고 </span>
         {/* DB의 username 이랑 연결해야 함 */}
         <div>
-
-            <Link to="/recipe">
-            <button type="button" className="recipeSearch">
-              레시피 검색
-            </button>
-          </Link>
+          <button type="button" className="recipeSearch">
+            레시피 검색
+          </button>
           <button
             type="button"
             className="deleteFood"

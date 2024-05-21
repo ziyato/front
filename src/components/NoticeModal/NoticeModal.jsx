@@ -4,7 +4,7 @@ import './NoticeModal.css';
 
 const NoticeModal = ({ notifications, onClose }) => {
   return (
-    <div className="modal-overlay" onClick={onClose}>
+    <div className="modal-overlay">
       <div className="modal">
         <div className="modal-header">
           <h2>알림 목록</h2>
