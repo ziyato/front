@@ -1,10 +1,22 @@
-import { Link } from "react-router-dom";
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { FaBell } from 'react-icons/fa';
+import NoticeModal from './NoticeModal/NoticeModal';
+
+
 
 function Header({ user }) {
+  const [showModal, setShowModal] = useState(false);
+  const notifications = ["Notification 1", "Notification 2", "Notification 3", "Notification 4", "Notification 5", "Notification 6", "Notification 7", "Notification 8", "Notification 9", "Notification 10", "Notification 11", "Notification 12", "Notification 13", "Notification 14", "Notification 15", "Notification 16", "Notification 17", "Notification 18", "Notification 19", "Notification 20"];
+  
+
+  
+
   function logout() {
     localStorage.removeItem("user");
     window.location.href = "/";
   }
+
 
   return (
     <header className=" block h-20 top-0 z-50">
@@ -53,6 +65,11 @@ function Header({ user }) {
           </div>
           
             <div className="flex flex-1 justify-end gap-7 items-center">
+            <FaBell
+              className="text-gray-300 cursor-pointer"
+              size={20}
+              onClick={() => setShowModal(true)}
+            />
             {user ? (
               <>
                 <Link
@@ -67,6 +84,8 @@ function Header({ user }) {
                 >
                   Logout
                 </Link>
+                
+                
               </>
             ) : (
               <>
@@ -88,6 +107,12 @@ function Header({ user }) {
           </div> 
         </nav>
       </div>
+      {showModal && (
+        <NoticeModal
+          notifications={notifications}
+          onClose={() => setShowModal(false)}
+        />
+      )}
     </header>
   );
 }
