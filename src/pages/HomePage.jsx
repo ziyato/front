@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import AddFoodModal from "../components/AddFoodModal/AddFoodModal.js"
 import "./HomePage.css";
 import { headers, FoodTable } from "../components/FoodTable.jsx";
 
@@ -23,6 +22,10 @@ const HomePage = () => {
   const [searchCategory, setSearchCategory] = useState("food_name"); // 검색 기준 초기값 식품명으로 설정
   const [sortCriteria, setSortCriteria] = useState("expiration_date"); // 정렬 기준 초기값 유통기한으로 설정
   const [sortDirection, setSortDirection] = useState(true); // 정렬 방향 초기값 오름차순으로 설정
+  const [isModalOpen, setModalOpen] = useState(false);
+
+  const openModal = () => setModalOpen(true);
+  const closeModal = () => setModalOpen(false);
 
   //   async function searchData(searchCategory, searchKeyword) {
   //     try {
@@ -204,9 +207,9 @@ const HomePage = () => {
             </div>
         </div>
         <div className="addFood">
-            <button>
-                +
-            </button>
+            <button onClick={openModal}>+</button>
+      <ToastModal isOpen={isModalOpen} onClose={closeModal} />
+                
         </div>
     </div>
   );
