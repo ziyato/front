@@ -8,6 +8,7 @@ import pic2 from "../assets/카레.jpg";
 import pic3 from "../assets/된찌.jpg";
 import pic4 from "../assets/마라탕.jpg";
 import pic5 from "../assets/탕후루.jpg";
+import ToastModal from '../components/ToastModal/ToastModal';
 
 // 유저 정보 예시
 const userInfo = {
