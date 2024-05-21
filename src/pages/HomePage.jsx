@@ -6,6 +6,7 @@ import pic2 from "../assets/카레.jpg";
 import pic3 from "../assets/된찌.jpg";
 import pic4 from "../assets/마라탕.jpg";
 import pic5 from "../assets/탕후루.jpg";
+import ToastModal from '../components/ToastModal/ToastModal';
 
 // 유저 정보 예시
 const userInfo = {
@@ -20,6 +21,10 @@ const HomePage = () => {
   const [searchCategory, setSearchCategory] = useState("food_name"); // 검색 기준 초기값 식품명으로 설정
   const [sortCriteria, setSortCriteria] = useState("expiration_date"); // 정렬 기준 초기값 유통기한으로 설정
   const [sortDirection, setSortDirection] = useState(true); // 정렬 방향 초기값 오름차순으로 설정
+  const [isModalOpen, setModalOpen] = useState(false);
+
+  const openModal = () => setModalOpen(true);
+  const closeModal = () => setModalOpen(false);
 
   //   async function searchData(searchCategory, searchKeyword) {
   //     try {
@@ -201,9 +206,10 @@ const HomePage = () => {
             </div>
         </div>
         <div className="addFood">
-            <button>
-                +
-            </button>
+            <button onClick={openModal}>+</button>
+      <ToastModal isOpen={isModalOpen} onClose={closeModal} />
+                
+            
         </div>
     </div>
   );

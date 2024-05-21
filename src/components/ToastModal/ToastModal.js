@@ -23,12 +23,25 @@ const ToastModal = ({ isOpen, onClose }) => {
     console.log({ foodName, quantity, manufacturingDate, expiryDate, category });
     onClose();
   };
+  const resetForm = () => {
+    setFoodName('');
+    setQuantity('');
+    setManufacturingDate('');
+    setExpiryDate('');
+    setCategory('');
+    setPhotoURL('');
+  };
+
+  const handleCancel = () => {
+    resetForm();
+    onClose();
+  };
 
   return (
     isOpen && (
       <div className="toast-modal-overlay">
         <div className="toast-modal-content" onClick={(e) => e.stopPropagation()}>
-        <h2 className="registration-title">식품 등록</h2>
+          <h2 className="registration-title">식품 등록</h2>
 
           <div className="left_section">
             <div className="user-photo">
@@ -38,9 +51,10 @@ const ToastModal = ({ isOpen, onClose }) => {
                 accept="image/jpeg,image/png"
                 className="file-input"
                 onChange={handlePhotoUpload}
+                style={{ display: 'none' }}
               />
-              <button className="change-photo-btn" onClick={() => document.querySelector('.file-input').click()}>
-                파일 선택
+              <button className="change-photobtn" onClick={() => document.querySelector('.file-input').click()}>
+                사진 선택
               </button>
             </div>
           </div>
@@ -92,7 +106,10 @@ const ToastModal = ({ isOpen, onClose }) => {
                 />
               </div>
               <div className="button-group">
-                <button className="cancel-button" type="button" onClick={onClose}>취소</button>
+                <button className="cancel-button" 
+                type="button" 
+                onClick={handleCancel}>
+                  취소</button>
                 <button className="submit-button" type="submit">완료</button>
               </div>
             </form>
