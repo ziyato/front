@@ -1,0 +1,64 @@
+.foodDetailPage {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+.undoSection {
+  padding: 25px;
+}
+
+.undoButton {
+    width: 60px;
+    height: 60px;
+    background-image: url('../assets/undo.png');
+    background-size: contain;
+    background-position: center;
+    border: none;
+    padding: 30px;
+    margin-left: 200px;
+    background-color: WHITE;
+    background-repeat: no-repeat;
+  }
+  
+.foodDetail {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+  }
+
+.detailImage {
+  width: 500px;
+  height: 500px;
+  border: 2px solid #b9b9b9;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center ;
+}
+
+.detailImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.detailImage span {
+  font-size: 30px;
+}
+
+.detailText {
+  display: flex;
+  flex-direction: column;
+  margin-left: 200px;
+}
+
+.detailText span {
+  margin-bottom: 50px;
+}
+
+.detailText .foodName {
+  font-size: 40px;
+  font-weight: 600;
+}

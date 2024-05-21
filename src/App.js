@@ -9,6 +9,7 @@ import Header from './components/Header';
 import './App.css';
 import RegisterUser from './pages/RegisterUser.js';
 import Login from './pages/Login.js';
+import FoodDetailPage from './pages/FoodDetailPage.jsx';
 
 function UseLocalStorage(key, initialState) {
   const [state, setState] = useState(() => {
@@ -22,7 +23,6 @@ function UseLocalStorage(key, initialState) {
 
 function App() {
   const [user, setUser] = UseLocalStorage("user");
-  
 
   return (
     <div className="App">
@@ -36,10 +36,9 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<RegisterUser />} />
           <Route path="/mypage" element={<MyPage />} />
-
+          <Route path="/food/:food_id" element={<FoodDetailPage />} />
           <Route path="*" element={<div> 404입니다 </div>} />
         </Routes>
-      
     </div>
   );
 }

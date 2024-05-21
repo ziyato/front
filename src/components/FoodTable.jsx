@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Navigate, useNavigate } from "react-router-dom";
 
 // 테이블 헤더 정의 (고정)
 const headers = [
@@ -10,7 +11,7 @@ const headers = [
 ];
 
 // 남은 일수 계산하는 함수
-const calculateDaysLeft = (expirationDate) => {
+export const calculateDaysLeft = (expirationDate) => {
   const today = new Date();
   const expireDate = new Date(expirationDate);
   today.setUTCHours(0, 0, 0, 0); // 현재 날짜 시간을 00:00:00으로 설정
@@ -32,6 +33,7 @@ function FoodTable({
   setSortCriteria,
   setSortDirection,
 }) {
+  const navigate = useNavigate(); // useNavigate 훅 사용
   const { alert_date } = userInfo; // userInfo로부터 알림 기준 일수 추출
   const [selection, setSelection] = useState([]); // 선택된 항목들 관리하는 state, food_id 담김
   const headerKey = headers.map((header) => header.value); // 헤더의 value 값 배열로 변환
@@ -60,8 +62,8 @@ function FoodTable({
             style={{ paddingLeft: "10px" }}
             onClick={() => handleSort(header.value)}
           >
-            {/* 현재 정렬 기준인 경우 정렬 방향 표시, 아닌 경우 ↕ 표시 */}
-            {sortCriteria === header.value ? (sortDirection ? "▲" : "▼") : "↕"}
+            {/* 아이템 없을 때는 항상 ↕ 표시, 아이템 있을 때 정렬 기준에 따라 아이콘 표시 */}
+            {items.length === 0 ? "↕" : sortCriteria === header.value ? (sortDirection ? "▲" : "▼") : "↕"}
           </button>
         ) : null}
       </th>
@@ -114,6 +116,11 @@ function FoodTable({
     return items.length > 0 && selection.length === items.length;
   };
 
+  // 각 행 클릭 시 상세 페이지로 이동하는 함수
+  const handleRowClick = (food_id) => {
+    navigate(`/food/${food_id}`);
+  };
+
   return (
     <div className="tableContainer">
       <table className="foodTable">
@@ -134,8 +141,19 @@ function FoodTable({
         <tbody>
           {/* 아이템 없는 경우 화면에 없다고 표시 */}
           {items.length === 0 ? (
-            <tr className="noItemsRow" style={{ height: "80px" }}>
-              <td colSpan={headers.length + 1}>등록된 식품이 없습니다.</td>
+            <tr className="noItemsRow" style={{ height: "100%", border: "" }}>
+              <td 
+                colSpan={headers.length + 1}
+                style={{
+                    border: "none",
+                    textAlign: "center",
+                    padding: "0",
+                    fontSize: "16px",
+                    height: "570px",
+                    verticalAlign: "middle"
+                }}
+              >
+                등록된 식품이 없습니다.</td>
             </tr>
           ) : (
             // 아이템 있는 경우
@@ -143,12 +161,17 @@ function FoodTable({
               <tr
                 key={index}
                 className={selection.includes(item.food_id) ? "select_row" : ""}
-              >
-                <td>
+                style={{ cursor: "pointer"}}
+                onClick={() => handleRowClick(item.food_id)} // 행 클릭 시 상세 페이지로 이동
+            >   
+                <td
+                    onClick={(e) => e.stopPropagation()}
+                    style={{ cursor: "default"}}
+                > 
                   <input
                     type="checkbox"
                     checked={selection.includes(item.food_id)}
-                    onChange={() => onChangeSelect(item.food_id)}
+                    onChange={(e) => {onChangeSelect(item.food_id);}}
                   />
                 </td>
                 {headerKey.map((key, idx) => (
@@ -171,7 +194,7 @@ function FoodTable({
                         <img
                           src={item[key]}
                           alt=""
-                          style={{ width: "100px", height: "100px" }}
+                          style={{ width: "120px", height: "100px" }}
                         />
                       ) : (
                         // 식품 이미지 없는 경우 No Images 출력
