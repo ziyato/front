@@ -11,12 +11,6 @@ function Login() {
           <h3 className=" text-3xl mb-6 font-semibold">
             Sign in to <br /> 냉장고를 부탁해
           </h3>
-          <button
-            onClick={() => getLogin("a26@naver.com", "123123")}
-            className=" bg-emerald-400 h-32"
-          >
-            aasdf
-          </button>
           <LoginBox />
           <div className="bg-white border rounded h-20 p-4 text-center">
             <span>New to 냉장고를 부탁해?</span>
@@ -41,27 +35,15 @@ function LoginBox() {
   } = useForm();
 
   async function onSubmit(data) {
-    // try {
-    //   await signInWithEmailAndPassword(auth, data.email, data.password);
-    //   authService.onAuthStateChanged((user) => {
-    //     if (user) {
-    //       localStorage.setItem(
-    //         "user",
-    //         JSON.stringify({
-    //           uid: user.uid,
-    //           username: user.displayName,
-    //           email: user.email, // github의 경우 이메일 공개 여부에 따라 null로 할당되기도 함.
-    //         })
-    //       );
-    //     }
-    //   });
-    //   window.location.href = "/";
-    // } catch (error) {
-    //   const errorCode = error.code;
-    //   const errorMessage = error.message;
-    //   console.error("Authentication error:", errorCode, errorMessage);
-    //   setError("extraError", { message: "계정이 일치하지 않습니다." });
-    // }
+    try {
+      const result = await getLogin(data.email, data.password);
+      return result;
+    } catch (error) {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.error("Authentication error:", errorCode, errorMessage);
+      setError("extraError", { message: "계정이 일치하지 않습니다." });
+    }
   }
 
   return (
@@ -114,7 +96,7 @@ function LoginBox() {
       <div className="flex flex-col gap-4 mt-4">
         <button
           type="submit"
-          className=" bg-green-800 text-base font-semibold hover:bg-green-600 h-10 border border-bg-green-950 rounded text-white"
+          className="bg-green-800 text-base font-semibold hover:bg-green-600 h-10 border border-bg-green-950 rounded text-white"
         >
           Login
         </button>
