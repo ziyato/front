@@ -150,14 +150,6 @@ const HomePage = () => {
     setItems(items.filter((item) => !selectedItemIds.includes(item.food_id))); // 상태 업데이트
   };
 
-  const handleClick = () => {
-    setIsModalOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-  };
-
   return (
     <div className="HomePage">
       <div className="searchSection">
@@ -218,9 +210,6 @@ const HomePage = () => {
         <button onClick={openModal}>+</button>
         <ToastModal isOpen={isModalOpen} onClose={closeModal} />
       </div>
-      {/* {isModalOpen && (
-        <AddFoodModal isOpen={isModalOpen} onClose={handleCloseModal} />
-      )} */}
     </div>
   );
 };
