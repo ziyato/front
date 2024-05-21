@@ -22,8 +22,12 @@ function UseLocalStorage(key, initialState) {
 
 function App() {
   const [user, setUser] = UseLocalStorage("user");
+  
+
   return (
     <div className="App">
+      
+    
       
         <Header />
         <Routes>
