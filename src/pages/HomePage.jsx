@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
+import AddFoodModal from "../components/AddFoodModal/AddFoodModal.js"
 import "./HomePage.css";
 import { headers, FoodTable } from "../components/FoodTable.jsx";
+
 import pic1 from "../assets/햇반.jpg";
 import pic2 from "../assets/카레.jpg";
 import pic3 from "../assets/된찌.jpg";
@@ -149,6 +151,15 @@ const HomePage = () => {
     setItems(items.filter((item) => !selectedItemIds.includes(item.food_id))); // 상태 업데이트
   };
 
+  const handleClick = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
+
   return (
     <div className="HomePage">
         <div className="searchSection">
@@ -209,8 +220,8 @@ const HomePage = () => {
             <button onClick={openModal}>+</button>
       <ToastModal isOpen={isModalOpen} onClose={closeModal} />
                 
-            
         </div>
+        {isModalOpen && <AddFoodModal isOpen={isModalOpen} onClose={handleCloseModal} />}
     </div>
   );
 };
