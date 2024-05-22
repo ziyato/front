@@ -23,9 +23,6 @@ const HomePage = ({ user }) => {
 
   const [isModalOpen, setModalOpen] = useState(false);
   const changeModal = () => setModalOpen(!isModalOpen);
-  //꿀팁) openModal, closeModal 함수를 한번에 통합시킬 수 있는 방법
-  //const changeModal = () => setModalOpen(!isModalOpen);
-  //이거 한번만 쓰면 가능
 
   // 검색 키워드 변경 시 호출되는 함수
   const handleSearchKeywordChange = (e) => {
