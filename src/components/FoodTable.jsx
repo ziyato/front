@@ -32,7 +32,7 @@ function FoodTable({
   sortDirection,
   setSortCriteria,
   setSortDirection,
-  selectedFoodNames,
+
   setSelectedFoodNames,
 }) {
   const navigate = useNavigate(); // useNavigate 훅 사용
@@ -76,12 +76,6 @@ function FoodTable({
         ) : null}
       </th>
     ));
-  };
-  const handleRecipeSearch = () => {
-    const selectedFoodNames = items
-      .filter((item) => selection.includes(item.food_id))
-      .map((item) => item.food_name);
-    navigate("/recipe", { state: { selectedItems: selectedFoodNames } });
   };
   // 삭제 버튼 클릭 시 호출되는 함수
   const handleDelete = () => {

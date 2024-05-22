@@ -8,6 +8,7 @@ import RegisterUser from "./pages/RegisterUser.js";
 import Login from "./pages/Login.js";
 import FoodDetailPage from "./pages/FoodDetailPage.jsx";
 import About from "./pages/About.js";
+import RecipePage from './pages/RecipePage.jsx';
 import NotFound from "./pages/NotFound.js";
 
 function UseSessionStorage(key) {
@@ -18,6 +19,7 @@ function UseSessionStorage(key) {
 
 function App() {
   const [user, setUser] = useState(null);
+  const [recipeFood, setRecipeFood] = useState([]);
 
   useEffect(() => {
     const storedUser = UseSessionStorage("user");
@@ -32,9 +34,9 @@ function App() {
       </button>
 
       <Routes>
-        <Route path="/" element={user ? <HomePage user={user} /> : <Login />} />
+        <Route path="/" element={user ? <HomePage user={user} setRecipeFood={setRecipeFood} /> : <Login />} />
         <Route path="/food/:food_id" element={<FoodDetailPage />} />
-
+        <Route path="/recipe" element={<RecipePage recipeFood={recipeFood}/>} />
         <Route path="/about" element={<About />} />
 
         <Route path="/login" element={<Login />} />
