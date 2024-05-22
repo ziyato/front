@@ -8,7 +8,7 @@ import pic3 from "../assets/된찌.jpg";
 import pic4 from "../assets/마라탕.jpg";
 import pic5 from "../assets/탕후루.jpg";
 import ToastModal from "../components/ToastModal/ToastModal";
-import { getSearchFood } from "../apis/getFoodAPI.js";
+import { getFoodDataAll, getSearchFood } from "../apis/getFoodAPI.js";
 
 // HomePage 수정해야 할 부분
 // searchData(searchkeyword, searchCategory) + getDataFromDB(user_id)
@@ -90,38 +90,64 @@ const data = [
 
 const HomePage = ({ user }) => {
   const [items, setItems] = useState([]); // 초기 아이템(식품) 상태를 빈 배열로 설정
-  const [searchKeyword, setSearchKeyword] = useState(""); // 검색 키워드 상태를 빈 문자열로 설정
   const [searchCategory, setSearchCategory] = useState("food_name"); // 검색 기준 초기값 식품명으로 설정
+  const [searchKeyword, setSearchKeyword] = useState(""); // 검색 키워드 상태를 빈 문자열로 설정
+
   const [sortCriteria, setSortCriteria] = useState("expiration_date"); // 정렬 기준 초기값 유통기한으로 설정
   const [sortDirection, setSortDirection] = useState(true); // 정렬 방향 초기값 오름차순으로 설정
-  const [isModalOpen, setModalOpen] = useState(false);
 
+  const [isModalOpen, setModalOpen] = useState(false);
   const openModal = () => setModalOpen(true);
   const closeModal = () => setModalOpen(false);
+  //꿀팁) openModal, closeModal 함수를 한번에 통합시킬 수 있는 방법
+  //const changeModal = () => setModalOpen(!isModalOpen);
+  //이거 한번만 쓰면 가능
 
-  async function searchData(searchCategory, searchKeyword) {
+  // 검색 키워드 변경 시 호출되는 함수
+  const handleSearchKeywordChange = (e) => {
+    setSearchKeyword(e.target.value);
+  };
+
+  //첫 실행 시 DB에서 데이터 받아오기
+  const fetchData = async () => {
     try {
-      const result = await getSearchFood(searchCategory, searchKeyword.trim());
-      setItems(result); // 아이템 상태를 검색된 아이템들로 변경
+      const foodData = await getDataFromDB(userInfo.user_id); // 식품 데이터 받아오기
+      const sortedData = sortItems(foodData, sortCriteria, sortDirection); // 초기 식품 데이터 정렬 (유통기한 기준, 오름차순)
+      setItems(sortedData); // 아이템 상태 업데이트
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  // DB에서 검색한 데이터를 가져오기
+  async function searchData(user_id, searchCategory, searchKeyword) {
+    console.log(searchKeyword);
+    console.log(searchKeyword.trim());
+    try {
+      const result = await getSearchFood(
+        user_id,
+        searchCategory,
+        searchKeyword.trim()
+      );
+      setItems(result);
+      console.log(result);
       return result;
     } catch (error) {
       console.error(error);
     }
   }
 
-  // DB에서 데이터를 가져오는 비동기 함수
+  // DB에서 유저의 전체 음식 데이터를 가져오는 비동기 함수
   async function getDataFromDB(user_id) {
     if (user !== null) {
       try {
         const result = await getFoodDataAll(user_id);
         console.log(result);
+        return result;
       } catch (error) {
         console.log(error);
       }
     }
-    // 실제 DB 호출 로직을 여기에 추가하기
-
-    return data.filter((item) => item.user_id === user_id); // user_id에 해당하는 데이터 반환, 없으면 빈 배열 반환
   }
 
   // 정렬 기준, 방향에 맞게 정렬하는 함수
@@ -137,26 +163,6 @@ const HomePage = ({ user }) => {
           : b[criteria].localeCompare(a[criteria]); // 정렬 기준이 식품명 or 카테고리면 문자열 비교
       }
     });
-  };
-
-  // HomePage 컴포넌트 처음 렌더링되고 화면에 표시될 때 데이터 로드
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const foodData = await getDataFromDB(userInfo.user_id); // 식품 데이터 받아오기
-        const sortedData = sortItems(foodData, sortCriteria, sortDirection); // 초기 식품 데이터 정렬 (유통기한 기준, 오름차순)
-        setItems(sortedData); // 아이템 상태 업데이트
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchData();
-  }, []); // user_id 변경 시에만 데이터 다시 로드?
-
-  // 검색 키워드 변경 시 호출되는 함수
-  const handleSearchKeywordChange = (e) => {
-    setSearchKeyword(e.target.value);
   };
 
   // 아이템 삭제, 삭제 후 아이템 상태 업데이트 기능 함수
@@ -179,6 +185,11 @@ const HomePage = ({ user }) => {
     setItems(updatedItems);
   };
 
+  // HomePage 컴포넌트 처음 렌더링되고 화면에 표시될 때 데이터 로드
+  useEffect(() => {
+    fetchData();
+  }, []); // user_id 변경 시에만 데이터 다시 로드?
+
   return (
     <div className="HomePage">
       <div className="searchSection">
@@ -200,7 +211,9 @@ const HomePage = ({ user }) => {
         <button
           type="button"
           className="searchButton"
-          onClick={() => searchData(searchCategory, searchKeyword)}
+          onClick={() => {
+            searchData(user.user_id, searchCategory, searchKeyword);
+          }}
         />
       </div>
       <div className="tableInfo">
@@ -211,58 +224,44 @@ const HomePage = ({ user }) => {
             type="button"
             className="recipeSearch"
             onClick={() => {
-              console.log("이스터에그ㅋ");
+              console.log("레시피");
             }}
           >
             레시피 검색
           </button>
           <button
             type="button"
-            className="searchButton"
-            //   onClick={searchData(searchCategory, searchKeyword)}
-          />
+            className="deleteFood"
+            onClick={() => FoodTable.handleDelete()}
+          >
+            삭제
+          </button>
         </div>
-        <div className="tableInfo">
-          <span> 👤 {userInfo.user_name} 님의 냉장고 </span>
-          {/* DB의 username 이랑 연결해야 함 */}
-          <div>
-            <button type="button" className="recipeSearch">
-              레시피 검색
-            </button>
-            <button
-              type="button"
-              className="deleteFood"
-              onClick={() => FoodTable.handleDelete()}
-            >
-              삭제
-            </button>
-          </div>
+      </div>
+      <div className="foodTableComponent">
+        <div className="scrollableBox">
+          <FoodTable
+            headers={headers}
+            items={items}
+            setItems={setItems}
+            onDelete={handleDelete}
+            userInfo={userInfo}
+            sortItems={sortItems}
+            sortCriteria={sortCriteria}
+            sortDirection={sortDirection}
+            setSortCriteria={setSortCriteria}
+            setSortDirection={setSortDirection}
+          ></FoodTable>
         </div>
-        <div className="foodTableComponent">
-          <div className="scrollableBox">
-            <FoodTable
-              headers={headers}
-              items={items}
-              setItems={setItems}
-              onDelete={handleDelete}
-              userInfo={userInfo}
-              sortItems={sortItems}
-              sortCriteria={sortCriteria}
-              sortDirection={sortDirection}
-              setSortCriteria={setSortCriteria}
-              setSortDirection={setSortDirection}
-            ></FoodTable>
-          </div>
-        </div>
-        <div className="addFood">
-          <button onClick={openModal}>+</button>
-          <ToastModal
-            isOpen={isModalOpen}
-            onClose={closeModal}
-            addItem={addItem}
-            user_id={userInfo.user_id}
-          />
-        </div>
+      </div>
+      <div className="addFood">
+        <button onClick={openModal}>+</button>
+        <ToastModal
+          isOpen={isModalOpen}
+          onClose={closeModal}
+          addItem={addItem}
+          user_id={userInfo.user_id}
+        />
       </div>
     </div>
   );
