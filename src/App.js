@@ -1,11 +1,10 @@
-// App.js
+import "./App.css";
 import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import HomePage from "./pages/HomePage";
+import HomePage from "./pages/Homepage.jsx";
 import AboutPage from "./pages/AboutPage";
 import MyPage from "./pages/MyPage";
 import Header from "./components/Header";
-import "./App.css";
 import RegisterUser from "./pages/RegisterUser.js";
 import Login from "./pages/Login.js";
 import FoodDetailPage from "./pages/FoodDetailPage.jsx";
@@ -52,7 +51,6 @@ const userInfo = {
   user_id: 4,
   email: "kmjlso1028@naver.com",
   password: "123",
-
   join_date: "2024-05-15T11:38:22.625Z",
   profile_pic: null,
   alert_date: 3,

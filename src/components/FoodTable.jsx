@@ -65,7 +65,13 @@ function FoodTable({
             onClick={() => handleSort(header.value)}
           >
             {/* 아이템 없을 때는 항상 ↕ 표시, 아이템 있을 때 정렬 기준에 따라 아이콘 표시 */}
-            {items.length === 0 ? "↕" : sortCriteria === header.value ? (sortDirection ? "▲" : "▼") : "↕"}
+            {items.length === 0
+              ? "↕"
+              : sortCriteria === header.value
+              ? sortDirection
+                ? "▲"
+                : "▼"
+              : "↕"}
           </button>
         ) : null}
       </th>
@@ -73,8 +79,8 @@ function FoodTable({
   };
   const handleRecipeSearch = () => {
     const selectedFoodNames = items
-    .filter((item) => selection.includes(item.food_id))
-    .map((item) => item.food_name);
+      .filter((item) => selection.includes(item.food_id))
+      .map((item) => item.food_name);
     navigate("/recipe", { state: { selectedItems: selectedFoodNames } });
   };
   // 삭제 버튼 클릭 시 호출되는 함수
@@ -106,7 +112,11 @@ function FoodTable({
       newSelection = [...selection, food_id]; // 선택되지 않은 항목이면 선택 추가
     }
     setSelection(newSelection); // 선택 상태 업데이트
-    setSelectedFoodNames(newSelection.map(id => items.find(item => item.food_id === id).food_name));
+    setSelectedFoodNames(
+      newSelection.map(
+        (id) => items.find((item) => item.food_id === id).food_name
+      )
+    );
   };
 
   // 전체 선택 체크박스 상태 변경 함수
@@ -131,7 +141,6 @@ function FoodTable({
 
   return (
     <div className="tableContainer">
-      
       <table className="foodTable">
         <thead className="tableHeader">
           <tr>
@@ -151,18 +160,19 @@ function FoodTable({
           {/* 아이템 없는 경우 화면에 없다고 표시 */}
           {items.length === 0 ? (
             <tr className="noItemsRow" style={{ height: "100%", border: "" }}>
-              <td 
+              <td
                 colSpan={headers.length + 1}
                 style={{
-                    border: "none",
-                    textAlign: "center",
-                    padding: "0",
-                    fontSize: "16px",
-                    height: "570px",
-                    verticalAlign: "middle"
+                  border: "none",
+                  textAlign: "center",
+                  padding: "0",
+                  fontSize: "16px",
+                  height: "570px",
+                  verticalAlign: "middle",
                 }}
               >
-                등록된 식품이 없습니다.</td>
+                등록된 식품이 없습니다.
+              </td>
             </tr>
           ) : (
             // 아이템 있는 경우
@@ -170,17 +180,19 @@ function FoodTable({
               <tr
                 key={index}
                 className={selection.includes(item.food_id) ? "select_row" : ""}
-                style={{ cursor: "pointer"}}
+                style={{ cursor: "pointer" }}
                 onClick={() => handleRowClick(item.food_id)} // 행 클릭 시 상세 페이지로 이동
-            >   
+              >
                 <td
-                    onClick={(e) => e.stopPropagation()}
-                    style={{ cursor: "default"}}
-                > 
+                  onClick={(e) => e.stopPropagation()}
+                  style={{ cursor: "default" }}
+                >
                   <input
                     type="checkbox"
                     checked={selection.includes(item.food_id)}
-                    onChange={(e) => {onChangeSelect(item.food_id);}}
+                    onChange={(e) => {
+                      onChangeSelect(item.food_id);
+                    }}
                   />
                 </td>
                 {headerKey.map((key, idx) => (
