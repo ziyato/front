@@ -95,6 +95,7 @@ function SignUpBox() {
       <div className="flex flex-col">
         <span>Confirm</span>
         <input
+          type="password"
           className="border rounded-lg border-gray-300 p-2 h-10"
           {...register("pwConfirm", {
             required: "비밀번호를 입력해주세요.",
