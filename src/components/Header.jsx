@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 function Header({ user }) {
   function logout() {
-    localStorage.removeItem("user");
+    sessionStorage.removeItem("user");
     window.location.href = "/";
   }
 

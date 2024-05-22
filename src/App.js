@@ -28,6 +28,9 @@ function App() {
   return (
     <div className="App">
       <Header user={user} />
+      <button className=" bg-cyan-500" onClick={() => setUser(userInfo)}>
+        임시로그인
+      </button>
 
       <Routes>
         <Route path="/" element={user ? <HomePage user={user} /> : <Login />} />
@@ -44,15 +47,13 @@ function App() {
 
 export default App;
 
-
-
 // 유저 정보 예시
 const userInfo = {
-  user_name: "민지",
+  username: "민지",
   user_id: 4,
   email: "kmjlso1028@naver.com",
   password: "123",
-  
+
   join_date: "2024-05-15T11:38:22.625Z",
   profile_pic: null,
   alert_date: 3,
