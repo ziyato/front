@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './ToastModal.css';
 
-const ToastModal = ({ isOpen, onClose }) => {
+const ToastModal = ({ isOpen, onClose, addItem, user_id }) => {
   const [foodName, setFoodName] = useState('');
   const [quantity, setQuantity] = useState('');
   const [manufacturingDate, setManufacturingDate] = useState('');
@@ -18,11 +18,6 @@ const ToastModal = ({ isOpen, onClose }) => {
     reader.readAsDataURL(file);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log({ foodName, quantity, manufacturingDate, expiryDate, category });
-    onClose();
-  };
   const resetForm = () => {
     setFoodName('');
     setQuantity('');
@@ -35,6 +30,26 @@ const ToastModal = ({ isOpen, onClose }) => {
   const handleCancel = () => {
     resetForm();
     onClose();
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const newItem = {
+      // food_id는 HomePage.jsx에서 설정    
+      food_name: foodName,
+      food_pic: photoURL,
+      category: category,
+      item_amount: parseInt(quantity, 10), // quantity 정수로 변환
+      purchase_date: new Date(manufacturingDate).toISOString(),
+      expiration_date: new Date(expiryDate).toISOString(),
+      user_id: user_id,
+    };
+
+    addItem(newItem);
+    resetForm();
+    onClose();
+
   };
 
   return (
@@ -110,7 +125,7 @@ const ToastModal = ({ isOpen, onClose }) => {
                 type="button" 
                 onClick={handleCancel}>
                   취소</button>
-                <button className="submit-button" type="submit">완료</button>
+                <button className="submit-button" type="submit" onClick={handleSubmit}>완료</button>
               </div>
             </form>
           </div>
