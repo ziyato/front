@@ -32,6 +32,8 @@ function FoodTable({
   sortDirection,
   setSortCriteria,
   setSortDirection,
+  selectedFoodNames,
+  setSelectedFoodNames,
 }) {
   const navigate = useNavigate(); // useNavigate 훅 사용
   const { alert_date } = userInfo; // userInfo로부터 알림 기준 일수 추출
@@ -69,7 +71,12 @@ function FoodTable({
       </th>
     ));
   };
-
+  const handleRecipeSearch = () => {
+    const selectedFoodNames = items
+    .filter((item) => selection.includes(item.food_id))
+    .map((item) => item.food_name);
+    navigate("/recipe", { state: { selectedItems: selectedFoodNames } });
+  };
   // 삭제 버튼 클릭 시 호출되는 함수
   const handleDelete = () => {
     const selectedItems = items.filter((item) =>
@@ -99,6 +106,7 @@ function FoodTable({
       newSelection = [...selection, food_id]; // 선택되지 않은 항목이면 선택 추가
     }
     setSelection(newSelection); // 선택 상태 업데이트
+    setSelectedFoodNames(newSelection.map(id => items.find(item => item.food_id === id).food_name));
   };
 
   // 전체 선택 체크박스 상태 변경 함수
@@ -123,6 +131,7 @@ function FoodTable({
 
   return (
     <div className="tableContainer">
+      
       <table className="foodTable">
         <thead className="tableHeader">
           <tr>
