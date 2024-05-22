@@ -15,14 +15,14 @@ import { useNavigate } from "react-router-dom";
 // searchData(searchkeyword, searchCategory) + getDataFromDB(user_id)
 
 const HomePage = ({ user, setRecipeFood }) => {
-    const navigate = useNavigate(); // useNavigate 훅 사용
+  const navigate = useNavigate(); // useNavigate 훅 사용
   const [items, setItems] = useState([]); // 초기 아이템(식품) 상태를 빈 배열로 설정
   const [searchCategory, setSearchCategory] = useState("food_name"); // 검색 기준 초기값 식품명으로 설정
   const [searchKeyword, setSearchKeyword] = useState(""); // 검색 키워드 상태를 빈 문자열로 설정
   const [selectedFoodNames, setSelectedFoodNames] = useState([]);
 
   const [sortCriteria, setSortCriteria] = useState("expiration_date"); // 정렬 기준 초기값 유통기한으로 설정
-  const [sortDirection, setSortDirection] = useState(true); // 정렬 방향 초기값 오름차순으로 설정
+  const [sortDirection, setSortDirection] = useState(true); // 정렬 방향 초기값 오름차순으로 설
 
   const [isModalOpen, setModalOpen] = useState(false);
   const changeModal = () => setModalOpen(!isModalOpen);
@@ -124,7 +124,7 @@ const HomePage = ({ user, setRecipeFood }) => {
       <button className="bg-amber-500" onClick={() => setItems(data)}>
         임시 음식 추가
       </button>
-      <button onClick={() =>console.log(selectedFoodNames)}>asdf</button>
+      <button onClick={() => console.log(selectedFoodNames)}>asdf</button>
       <div className="searchSection">
         {/* 검색 기준 선택할 수 있는 드롭다운 */}
         <select
@@ -151,13 +151,12 @@ const HomePage = ({ user, setRecipeFood }) => {
       </div>
       <div className="tableInfo">
         <span> 👤 {user.username} 님의 냉장고 </span>
-        {/* DB의 username 이랑 연결해야 함 */}
         <div>
           <button
             type="button"
             className="recipeSearch"
             onClick={() => {
-                handleRecipeSearch()
+              handleRecipeSearch();
             }}
           >
             레시피 검색
@@ -184,7 +183,6 @@ const HomePage = ({ user, setRecipeFood }) => {
             sortDirection={sortDirection}
             setSortCriteria={setSortCriteria}
             setSortDirection={setSortDirection}
-
             setSelectedFoodNames={setSelectedFoodNames}
           />
         </div>
