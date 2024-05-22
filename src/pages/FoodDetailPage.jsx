@@ -4,6 +4,9 @@ import { calculateDaysLeft } from "../components/FoodTable.jsx";
 import "./FoodDetailPage.css";
 import pic5 from "../assets/탕후루.jpg";
 
+// FoodDetailPage.jsx 수정해야 할 부분
+// 각 식품마다 상세 페이지.. 데이터 연결하는 부분
+
 const FoodDetailPage = () => {
     const { food_id } = useParams(); 
     const navigate = useNavigate();

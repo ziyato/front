@@ -9,15 +9,22 @@ import pic4 from "../assets/마라탕.jpg";
 import pic5 from "../assets/탕후루.jpg";
 import ToastModal from "../components/ToastModal/ToastModal";
 
+// HomePage 수정해야 할 부분 
+// searchData(searchkeyword, searchCategory) + getDataFromDB(user_id)
+
 // 유저 정보 예시
 const userInfo = {
   user_name: "민지",
   user_id: 4,
+  email: "kmjlso1028@naver.com",
+  password: "123",
+  join_date: "2024-05-15T11:38:22.625Z",
+  profile_pic: null,
   alert_date: 3,
 };
 
 // 식품 데이터 예시
-export const data = [
+const data = [
     {
       food_id: 1,
       food_name: "햇반",
@@ -80,7 +87,7 @@ export const data = [
     },
   ];
 
-const HomePage = () => {
+const HomePage = ({user}) => {
   const [items, setItems] = useState([]); // 초기 아이템(식품) 상태를 빈 배열로 설정
   const [searchKeyword, setSearchKeyword] = useState(""); // 검색 키워드 상태를 빈 문자열로 설정
   const [searchCategory, setSearchCategory] = useState("food_name"); // 검색 기준 초기값 식품명으로 설정
@@ -91,19 +98,26 @@ const HomePage = () => {
   const openModal = () => setModalOpen(true);
   const closeModal = () => setModalOpen(false);
 
-  //   async function searchData(searchCategory, searchKeyword) {
-  //     try {
-  //       const result = await getSearchFood(searchCategory, searchKeyword.trim());
-  //       setItems(result); // 아이템 상태를 검색된 아이템들로 변경
-  //       return result;
-  //     } catch {
-  //       console.error(error);
-  //     }
-  //   }
+    // async function searchData(searchCategory, searchKeyword) {
+    //   try {
+    //     const result = await getSearchFood(searchCategory, searchKeyword.trim());
+    //     setItems(result); // 아이템 상태를 검색된 아이템들로 변경
+    //     return result;
+    //   } catch(error) {
+    //     console.error(error);
+    //   }
+    // }
 
   // DB에서 데이터를 가져오는 비동기 함수
-  const getDataFromDB = async (user_id) => {
-
+  async function getDataFromDB(user_id) {
+    if (user !== null){
+      try {
+        const result = await getFoodDataAll(user_id)
+        console.log(result)
+      } catch (error){
+        console.log(error)
+      }
+    }
     // 실제 DB 호출 로직을 여기에 추가하기
 
     return data.filter((item) => item.user_id === user_id); // user_id에 해당하는 데이터 반환, 없으면 빈 배열 반환
@@ -137,7 +151,7 @@ const HomePage = () => {
     };
 
     fetchData();
-  }, []); // user_id 변경 시에만 데이터 다시 로드
+  }, []); // user_id 변경 시에만 데이터 다시 로드?
 
   // 검색 키워드 변경 시 호출되는 함수
   const handleSearchKeywordChange = (e) => {
