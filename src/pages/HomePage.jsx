@@ -8,6 +8,7 @@ import pic3 from "../assets/된찌.jpg";
 import pic4 from "../assets/마라탕.jpg";
 import pic5 from "../assets/탕후루.jpg";
 import ToastModal from "../components/ToastModal/ToastModal";
+import { getSearchFood } from "../apis/getFoodAPI.js";
 
 // 유저 정보 예시
 const userInfo = {
@@ -27,15 +28,15 @@ const HomePage = () => {
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
-  //   async function searchData(searchCategory, searchKeyword) {
-  //     try {
-  //       const result = await getSearchFood(searchCategory, searchKeyword.trim());
-  //       setItems(result); // 아이템 상태를 검색된 아이템들로 변경
-  //       return result;
-  //     } catch {
-  //       console.error(error);
-  //     }
-  //   }
+  async function searchData(searchCategory, searchKeyword) {
+    try {
+      const result = await getSearchFood(searchCategory, searchKeyword.trim());
+      setItems(result); // 아이템 상태를 검색된 아이템들로 변경
+      return result;
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   // DB에서 데이터를 가져오는 비동기 함수
   const getDataFromDB = async (user_id) => {
@@ -171,14 +172,20 @@ const HomePage = () => {
         <button
           type="button"
           className="searchButton"
-          //   onClick={searchData(searchCategory, searchKeyword)}
+          onClick={() => searchData(searchCategory, searchKeyword)}
         />
       </div>
       <div className="tableInfo">
         <span> 👤 {userInfo.user_name} 님의 냉장고 </span>
         {/* DB의 username 이랑 연결해야 함 */}
         <div>
-          <button type="button" className="recipeSearch">
+          <button
+            type="button"
+            className="recipeSearch"
+            onClick={() => {
+              console.log("이스터에그ㅋ");
+            }}
+          >
             레시피 검색
           </button>
           <button

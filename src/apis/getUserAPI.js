@@ -1,8 +1,10 @@
 import axios from "axios";
 
+const REACT_APP_BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+
 export async function getLogin(username, password) {
   try {
-    const response = await axios.post(`http://localhost:8080/api/user/login`, {
+    const response = await axios.post(`${REACT_APP_BACKEND_URL}/api/user/login`, {
       email: username,
       password: password,
     });
@@ -18,7 +20,7 @@ export async function getLogin(username, password) {
 export async function postRegister(data) {
   console.log(data);
   try {
-    const response = await axios.post(`http://localhost:8080/api/user/signup`, {
+    const response = await axios.post(`${REACT_APP_BACKEND_URL}/api/user/signup`, {
       email: data.email,
       password: data.password,
       username: data.Username,
