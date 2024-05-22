@@ -26,7 +26,7 @@ function FoodTable({
   items,
   setItems,
   onDelete,
-  userInfo,
+  user,
   sortItems,
   sortCriteria,
   sortDirection,
@@ -36,7 +36,7 @@ function FoodTable({
   setSelectedFoodNames,
 }) {
   const navigate = useNavigate(); // useNavigate 훅 사용
-  const { alert_date } = userInfo; // userInfo로부터 알림 기준 일수 추출
+  const { alert_date } = user; // userInfo로부터 알림 기준 일수 추출
   const [selection, setSelection] = useState([]); // 선택된 항목들 관리하는 state, food_id 담김
   const headerKey = headers.map((header) => header.value); // 헤더의 value 값 배열로 변환
 
