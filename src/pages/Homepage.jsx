@@ -12,17 +12,18 @@ import { getFoodDataAll, getSearchFood } from "../apis/getFoodAPI.js";
 
 // HomePage 수정해야 할 부분
 // searchData(searchkeyword, searchCategory) + getDataFromDB(user_id)
-
 const HomePage = ({ user }) => {
   const [items, setItems] = useState([]); // 초기 아이템(식품) 상태를 빈 배열로 설정
   const [searchCategory, setSearchCategory] = useState("food_name"); // 검색 기준 초기값 식품명으로 설정
   const [searchKeyword, setSearchKeyword] = useState(""); // 검색 키워드 상태를 빈 문자열로 설정
 
   const [sortCriteria, setSortCriteria] = useState("expiration_date"); // 정렬 기준 초기값 유통기한으로 설정
-  const [sortDirection, setSortDirection] = useState(true); // 정렬 방향 초기값 오름차순으로 설정
-
+  const [sortDirection, setSortDirection] = useState(true); // 정렬 방향 초기값 오름차순으로 설
   const [isModalOpen, setModalOpen] = useState(false);
   const changeModal = () => setModalOpen(!isModalOpen);
+  //꿀팁) openModal, closeModal 함수를 한번에 통합시킬 수 있는 방법
+  //const changeModal = () => setModalOpen(!isModalOpen);
+  //이거 한번만 쓰면 가능
 
   // 검색 키워드 변경 시 호출되는 함수
   const handleSearchKeywordChange = (e) => {
@@ -104,6 +105,7 @@ const HomePage = ({ user }) => {
     // 정렬 기준 기본값에 따라 다시 정렬한 아이템 배열
     updatedItems = sortItems(updatedItems, sortCriteria, sortDirection);
     setItems(updatedItems);
+
   };
 
   // HomePage 컴포넌트 처음 렌더링되고 화면에 표시될 때 데이터 로드
@@ -113,7 +115,7 @@ const HomePage = ({ user }) => {
 
   return (
     <div className="HomePage">
-      <button className="bg-amber-500" onClick={() => setItems(data)}>
+      <button className=" bg-amber-500" onClick={() => setItems(data)}>
         임시 음식 추가
       </button>
       <div className="searchSection">
@@ -155,11 +157,41 @@ const HomePage = ({ user }) => {
           </button>
           <button
             type="button"
-            className="deleteFood"
-            onClick={() => FoodTable.handleDelete()}
-          >
-            삭제
-          </button>
+            className="searchButton"
+            //   onClick={searchData(searchCategory, searchKeyword)}
+            />
+        </div>
+        <div className="tableInfo">
+            <span> 👤 {userInfo.user_name} 님의 냉장고 </span>
+            {/* DB의 username 이랑 연결해야 함 */}
+            <div>
+                <button type="button" className="recipeSearch">
+                레시피 검색
+                </button>
+                <button
+                type="button"
+                className="deleteFood"
+                onClick={() => FoodTable.handleDelete()}
+                >
+                삭제
+                </button>
+            </div>
+        </div>
+        <div className="foodTableComponent">
+            <div className="scrollableBox">
+                <FoodTable
+                    headers={headers}
+                    items={items}
+                    setItems={setItems}
+                    onDelete={handleDelete}
+                    userInfo={userInfo}
+                    sortItems={sortItems}
+                    sortCriteria={sortCriteria}
+                    sortDirection={sortDirection}
+                    setSortCriteria={setSortCriteria}
+                    setSortDirection={setSortDirection}
+                ></FoodTable>
+            </div>
         </div>
       </div>
       <div className="foodTableComponent">
@@ -169,7 +201,7 @@ const HomePage = ({ user }) => {
             items={items}
             setItems={setItems}
             onDelete={handleDelete}
-            user={user}
+            userInfo={user}
             sortItems={sortItems}
             sortCriteria={sortCriteria}
             sortDirection={sortDirection}
