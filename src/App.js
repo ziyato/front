@@ -11,37 +11,26 @@ import RegisterUser from "./pages/RegisterUser.js";
 import Login from "./pages/Login.js";
 import FoodDetailPage from "./pages/FoodDetailPage.jsx";
 
-function UseLocalStorage(key, initialState) {
-  const [state, setState] = useState(() => {
-    console.log(window.localStorage.getItem(key));
-    let storedValue = window.localStorage.getItem(key);
-    return storedValue !== undefined ? JSON.parse(storedValue) : initialState;
-  });
-
-  return [state, setState];
+function UseSessionStorage(key) {
+  const storedValue = sessionStorage.getItem(key);
+  console.log(storedValue);
+  return storedValue ? JSON.parse(storedValue) : null;
 }
 
-const userInfo = {
-  user_name: "민지",
-  user_id: 4,
-  email: "kmjlso1028@naver.com",
-  password: "123",
-  join_date: "2024-05-15T11:38:22.625Z",
-  profile_pic: null,
-  alert_date: 3,
-};
-
 function App() {
-  const [user, setUser] = UseLocalStorage("user");
+  const [user, setUser] = useState(null);
+
   useEffect(() => {
-    setUser(userInfo);
+    const storedUser = UseSessionStorage("user");
+    setUser(storedUser);
   }, []);
 
   return (
     <div className="App">
-      <Header />
+      <Header user={user} />
+
       <Routes>
-        <Route path="/" element={<HomePage user={user} />} />
+        <Route path="/" element={user ? <HomePage user={user} /> : <Login />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<RegisterUser />} />
@@ -54,3 +43,17 @@ function App() {
 }
 
 export default App;
+
+
+
+// 유저 정보 예시
+const userInfo = {
+  user_name: "민지",
+  user_id: 4,
+  email: "kmjlso1028@naver.com",
+  password: "123",
+  
+  join_date: "2024-05-15T11:38:22.625Z",
+  profile_pic: null,
+  alert_date: 3,
+};

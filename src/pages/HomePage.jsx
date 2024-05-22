@@ -13,81 +13,6 @@ import { getFoodDataAll, getSearchFood } from "../apis/getFoodAPI.js";
 // HomePage 수정해야 할 부분
 // searchData(searchkeyword, searchCategory) + getDataFromDB(user_id)
 
-// 유저 정보 예시
-const userInfo = {
-  user_name: "민지",
-  user_id: 4,
-  email: "kmjlso1028@naver.com",
-  password: "123",
-  join_date: "2024-05-15T11:38:22.625Z",
-  profile_pic: null,
-  alert_date: 3,
-};
-
-// 식품 데이터 예시
-const data = [
-  {
-    food_id: 1,
-    food_name: "햇반",
-    food_pic: pic1,
-    category: "밥",
-    item_amount: 1,
-    purchase_date: "2024-02-19T15:00:00.000Z",
-    expiration_date: "2024-12-11T15:00:00.000Z",
-    user_id: 4,
-  },
-  {
-    food_id: 2,
-    food_name: "카레이름",
-    food_pic: pic2,
-    category: "카테카테",
-    item_amount: 2,
-    purchase_date: "2024-04-09T15:00:00.000Z",
-    expiration_date: "2024-05-17T15:00:00.000Z",
-    user_id: 4,
-  },
-  {
-    food_id: 3,
-    food_name: "육회비빔밥",
-    food_pic: "",
-    category: "밥",
-    item_amount: 1,
-    purchase_date: "2024-05-17T15:00:00.000Z",
-    expiration_date: "2024-05-22T15:00:00.000Z",
-    user_id: 4,
-  },
-  {
-    food_id: 4,
-    food_name: "된장찌개",
-    food_pic: pic3,
-    category: "국",
-    item_amount: 1,
-    purchase_date: "2024-05-19T15:00:00.000Z",
-    expiration_date: "2024-06-07T15:00:00.000Z",
-    user_id: 4,
-  },
-  {
-    food_id: 5,
-    food_name: "마라탕",
-    food_pic: pic4,
-    category: "탕",
-    item_amount: 1,
-    purchase_date: "2024-05-15T15:00:00.000Z",
-    expiration_date: "2024-06-01T15:00:00.000Z",
-    user_id: 4,
-  },
-  {
-    food_id: 6,
-    food_name: "탕후루",
-    food_pic: pic5,
-    category: "간식",
-    item_amount: 4,
-    purchase_date: "2024-05-16T15:00:00.000Z",
-    expiration_date: "2024-05-25T15:00:00.000Z",
-    user_id: 4,
-  },
-];
-
 const HomePage = ({ user }) => {
   const [items, setItems] = useState([]); // 초기 아이템(식품) 상태를 빈 배열로 설정
   const [searchCategory, setSearchCategory] = useState("food_name"); // 검색 기준 초기값 식품명으로 설정
@@ -111,7 +36,7 @@ const HomePage = ({ user }) => {
   //첫 실행 시 DB에서 데이터 받아오기
   const fetchData = async () => {
     try {
-      const foodData = await getDataFromDB(userInfo.user_id); // 식품 데이터 받아오기
+      const foodData = await getDataFromDB(user.user_id); // 식품 데이터 받아오기
       const sortedData = sortItems(foodData, sortCriteria, sortDirection); // 초기 식품 데이터 정렬 (유통기한 기준, 오름차순)
       setItems(sortedData); // 아이템 상태 업데이트
     } catch (error) {
@@ -217,7 +142,7 @@ const HomePage = ({ user }) => {
         />
       </div>
       <div className="tableInfo">
-        <span> 👤 {userInfo.user_name} 님의 냉장고 </span>
+        <span> 👤 {user.username} 님의 냉장고 </span>
         {/* DB의 username 이랑 연결해야 함 */}
         <div>
           <button
@@ -245,7 +170,7 @@ const HomePage = ({ user }) => {
             items={items}
             setItems={setItems}
             onDelete={handleDelete}
-            userInfo={userInfo}
+            userInfo={user}
             sortItems={sortItems}
             sortCriteria={sortCriteria}
             sortDirection={sortDirection}
@@ -260,10 +185,74 @@ const HomePage = ({ user }) => {
           isOpen={isModalOpen}
           onClose={closeModal}
           addItem={addItem}
-          user_id={userInfo.user_id}
+          user_id={user.user_id}
         />
       </div>
     </div>
   );
 };
 export default HomePage;
+
+// 식품 데이터 예시
+const data = [
+  {
+    food_id: 1,
+    food_name: "햇반",
+    food_pic: pic1,
+    category: "밥",
+    item_amount: 1,
+    purchase_date: "2024-02-19T15:00:00.000Z",
+    expiration_date: "2024-12-11T15:00:00.000Z",
+    user_id: 4,
+  },
+  {
+    food_id: 2,
+    food_name: "카레이름",
+    food_pic: pic2,
+    category: "카테카테",
+    item_amount: 2,
+    purchase_date: "2024-04-09T15:00:00.000Z",
+    expiration_date: "2024-05-17T15:00:00.000Z",
+    user_id: 4,
+  },
+  {
+    food_id: 3,
+    food_name: "육회비빔밥",
+    food_pic: "",
+    category: "밥",
+    item_amount: 1,
+    purchase_date: "2024-05-17T15:00:00.000Z",
+    expiration_date: "2024-05-22T15:00:00.000Z",
+    user_id: 4,
+  },
+  {
+    food_id: 4,
+    food_name: "된장찌개",
+    food_pic: pic3,
+    category: "국",
+    item_amount: 1,
+    purchase_date: "2024-05-19T15:00:00.000Z",
+    expiration_date: "2024-06-07T15:00:00.000Z",
+    user_id: 4,
+  },
+  {
+    food_id: 5,
+    food_name: "마라탕",
+    food_pic: pic4,
+    category: "탕",
+    item_amount: 1,
+    purchase_date: "2024-05-15T15:00:00.000Z",
+    expiration_date: "2024-06-01T15:00:00.000Z",
+    user_id: 4,
+  },
+  {
+    food_id: 6,
+    food_name: "탕후루",
+    food_pic: pic5,
+    category: "간식",
+    item_amount: 4,
+    purchase_date: "2024-05-16T15:00:00.000Z",
+    expiration_date: "2024-05-25T15:00:00.000Z",
+    user_id: 4,
+  },
+];
