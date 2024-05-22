@@ -22,8 +22,7 @@ const HomePage = ({ user }) => {
   const [sortDirection, setSortDirection] = useState(true); // 정렬 방향 초기값 오름차순으로 설정
 
   const [isModalOpen, setModalOpen] = useState(false);
-  const openModal = () => setModalOpen(true);
-  const closeModal = () => setModalOpen(false);
+  const changeModal = () => setModalOpen(!isModalOpen);
   //꿀팁) openModal, closeModal 함수를 한번에 통합시킬 수 있는 방법
   //const changeModal = () => setModalOpen(!isModalOpen);
   //이거 한번만 쓰면 가능
@@ -180,10 +179,10 @@ const HomePage = ({ user }) => {
         </div>
       </div>
       <div className="addFood">
-        <button onClick={openModal}>+</button>
+        <button onClick={changeModal}>+</button>
         <ToastModal
           isOpen={isModalOpen}
-          onClose={closeModal}
+          onClose={changeModal}
           addItem={addItem}
           user_id={user.user_id}
         />
