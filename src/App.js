@@ -41,7 +41,7 @@ function App() {
 
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<RegisterUser />} />
-        <Route path="/mypage" element={<MyPage />} />
+        <Route path="/mypage" element={<MyPage user={user}/>} />
 
         <Route path="*" element={<NotFound />} />
       </Routes>
