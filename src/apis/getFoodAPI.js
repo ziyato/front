@@ -27,3 +27,17 @@ export async function getFoodDataAll(user_id) {
     throw error;
   }
 }
+
+export async function postFoodData(user_id, data) {
+  try {
+    const response = await axios.post(
+      `${REACT_APP_BACKEND_URL}/api/icebox/${user_id}`,
+      data
+    );
+    console.log(response);
+    return response;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}

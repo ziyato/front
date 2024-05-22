@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
-import './ToastModal.css';
+import React, { useState } from "react";
+import "./ToastModal.css";
+import { postFoodData } from "../../apis/getFoodAPI";
 
 const ToastModal = ({ isOpen, onClose, addItem, user_id }) => {
-  const [foodName, setFoodName] = useState('');
-  const [quantity, setQuantity] = useState('');
-  const [manufacturingDate, setManufacturingDate] = useState('');
-  const [expiryDate, setExpiryDate] = useState('');
-  const [category, setCategory] = useState('');
-  const [photoURL, setPhotoURL] = useState('');
+  const [foodName, setFoodName] = useState("");
+  const [quantity, setQuantity] = useState("");
+  const [manufacturingDate, setManufacturingDate] = useState("");
+  const [expiryDate, setExpiryDate] = useState("");
+  const [category, setCategory] = useState("");
+  const [photoURL, setPhotoURL] = useState("");
 
   const handlePhotoUpload = (e) => {
     const file = e.target.files[0];
@@ -19,12 +20,12 @@ const ToastModal = ({ isOpen, onClose, addItem, user_id }) => {
   };
 
   const resetForm = () => {
-    setFoodName('');
-    setQuantity('');
-    setManufacturingDate('');
-    setExpiryDate('');
-    setCategory('');
-    setPhotoURL('');
+    setFoodName("");
+    setQuantity("");
+    setManufacturingDate("");
+    setExpiryDate("");
+    setCategory("");
+    setPhotoURL("");
   };
 
   const handleCancel = () => {
@@ -36,7 +37,7 @@ const ToastModal = ({ isOpen, onClose, addItem, user_id }) => {
     e.preventDefault();
 
     const newItem = {
-      // food_id는 HomePage.jsx에서 설정    
+      // food_id는 HomePage.jsx에서 설정
       food_name: foodName,
       food_pic: photoURL,
       category: category,
@@ -46,16 +47,21 @@ const ToastModal = ({ isOpen, onClose, addItem, user_id }) => {
       user_id: user_id,
     };
 
+    //이 둘중에 하나만 사용, 주석도 삭제하기
     addItem(newItem);
+    postFoodData(user_id, newItem);
+
     resetForm();
     onClose();
-
   };
 
   return (
     isOpen && (
       <div className="toast-modal-overlay">
-        <div className="toast-modal-content" onClick={(e) => e.stopPropagation()}>
+        <div
+          className="toast-modal-content"
+          onClick={(e) => e.stopPropagation()}
+        >
           <h2 className="registration-title">식품 등록</h2>
 
           <div className="left_section">
@@ -66,9 +72,12 @@ const ToastModal = ({ isOpen, onClose, addItem, user_id }) => {
                 accept="image/jpeg,image/png"
                 className="file-input"
                 onChange={handlePhotoUpload}
-                style={{ display: 'none' }}
+                style={{ display: "none" }}
               />
-              <button className="change-photobtn" onClick={() => document.querySelector('.file-input').click()}>
+              <button
+                className="change-photobtn"
+                onClick={() => document.querySelector(".file-input").click()}
+              >
                 사진 선택
               </button>
             </div>
@@ -121,11 +130,20 @@ const ToastModal = ({ isOpen, onClose, addItem, user_id }) => {
                 />
               </div>
               <div className="button-group">
-                <button className="cancel-button" 
-                type="button" 
-                onClick={handleCancel}>
-                  취소</button>
-                <button className="submit-button" type="submit" onClick={handleSubmit}>완료</button>
+                <button
+                  className="cancel-button"
+                  type="button"
+                  onClick={handleCancel}
+                >
+                  취소
+                </button>
+                <button
+                  className="submit-button"
+                  type="submit"
+                  onClick={handleSubmit}
+                >
+                  완료
+                </button>
               </div>
             </form>
           </div>
