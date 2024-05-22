@@ -13,7 +13,7 @@ function Header({ user }) {
   
 
   function logout() {
-    localStorage.removeItem("user");
+    sessionStorage.removeItem("user");
     window.location.href = "/";
   }
 
@@ -43,11 +43,8 @@ function Header({ user }) {
               >
                 About
               </Link>
-              <Link
-                to="/"
-                className="font-semibold leading-6 text-gray-300"
-              >
-                HomePage
+              <Link to="/" className="font-semibold leading-6 text-gray-300">
+                나의 냉장고
               </Link>
               {/*<Link
                 to="/login"
@@ -59,11 +56,10 @@ function Header({ user }) {
                 to="/mypage"
                 className=" font-semibold leading-6 text-gray-300"
               >
-                MyPage
+                마이페이지
               </Link>
             </div>
           </div>
-          
             <div className="flex flex-1 justify-end gap-7 items-center">
             <FaBell
               className="text-gray-300 cursor-pointer"
@@ -104,7 +100,7 @@ function Header({ user }) {
                 </Link>
               </>
             )}
-          </div> 
+          </div>
         </nav>
       </div>
       {showModal && (

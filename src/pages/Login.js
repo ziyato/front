@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, redirect, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import InputError from "./InputError";
 import { getLogin } from "../apis/getUserAPI";
@@ -26,7 +26,7 @@ function Login() {
 }
 
 function LoginBox() {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const {
     register,
     formState: { errors },
@@ -37,6 +37,7 @@ function LoginBox() {
   async function onSubmit(data) {
     try {
       const result = await getLogin(data.email, data.password);
+      window.location.href = "/";
       return result;
     } catch (error) {
       const errorCode = error.code;
