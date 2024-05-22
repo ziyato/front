@@ -2,12 +2,13 @@ import "./App.css";
 import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import HomePage from "./pages/Homepage.jsx";
-import AboutPage from "./pages/AboutPage";
 import MyPage from "./pages/MyPage";
 import Header from "./components/Header";
 import RegisterUser from "./pages/RegisterUser.js";
 import Login from "./pages/Login.js";
 import FoodDetailPage from "./pages/FoodDetailPage.jsx";
+import About from "./pages/About.js";
+import NotFound from "./pages/NotFound.js";
 
 function UseSessionStorage(key) {
   const storedValue = sessionStorage.getItem(key);
@@ -32,12 +33,15 @@ function App() {
 
       <Routes>
         <Route path="/" element={user ? <HomePage user={user} /> : <Login />} />
-        <Route path="/about" element={<AboutPage />} />
+        <Route path="/food/:food_id" element={<FoodDetailPage />} />
+
+        <Route path="/about" element={<About />} />
+
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<RegisterUser />} />
         <Route path="/mypage" element={<MyPage />} />
-        <Route path="/food/:food_id" element={<FoodDetailPage />} />
-        <Route path="*" element={<div> 404입니다 </div>} />
+
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </div>
   );
