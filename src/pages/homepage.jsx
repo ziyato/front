@@ -116,7 +116,7 @@ const HomePage = ({ user }) => {
 
   return (
     <div className="HomePage">
-      <button className=" bg-amber-500" onClick={() => setItems(data)}>
+      <button className="bg-amber-500" onClick={() => setItems(data)}>
         임시 음식 추가
       </button>
       <div className="searchSection">
