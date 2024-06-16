@@ -17,6 +17,7 @@ const HomePage = ({ user, setRecipeFood }) => {
   const [searchCategory, setSearchCategory] = useState("food_name"); // 검색 기준 초기값 식품명으로 설정
   const [searchKeyword, setSearchKeyword] = useState(""); // 검색 키워드 상태를 빈 문자열로 설정
   const [selectedFoodNames, setSelectedFoodNames] = useState([]);
+  const [selectedFoodID, setSelectedFoodID] = useState([]);
 
   const [sortCriteria, setSortCriteria] = useState("expiration_date"); // 정렬 기준 초기값 유통기한으로 설정
   const [sortDirection, setSortDirection] = useState(true); // 정렬 방향 초기값 오름차순으로 설
@@ -120,7 +121,8 @@ const HomePage = ({ user, setRecipeFood }) => {
       <button className="bg-amber-500" onClick={() => setItems(data)}>
         임시 음식 추가
       </button>
-      <button onClick={() => console.log(selectedFoodNames)}>asdf</button>
+      <button onClick={() => console.log(selectedFoodNames)}>'음식이름'</button>
+      <button onClick={() => console.log(selectedFoodID)}>'음식ID'</button>
       <div className="searchSection">
         {/* 검색 기준 선택할 수 있는 드롭다운 */}
         <select
@@ -181,6 +183,7 @@ const HomePage = ({ user, setRecipeFood }) => {
             setSortCriteria={setSortCriteria}
             setSortDirection={setSortDirection}
             setSelectedFoodNames={setSelectedFoodNames}
+            setSelectedFoodID = {setSelectedFoodID}
           />
         </div>
       </div>
