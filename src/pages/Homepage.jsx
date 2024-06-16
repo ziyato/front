@@ -8,11 +8,7 @@ import pic3 from "../assets/된찌.jpg";
 import pic4 from "../assets/마라탕.jpg";
 import pic5 from "../assets/탕후루.jpg";
 import ToastModal from "../components/ToastModal/ToastModal";
-import {
-  deleteFoodData,
-  getFoodDataAll,
-  getSearchFood,
-} from "../apis/getFoodAPI.js";
+import { deleteFoodData, getFoodDataAll, getSearchFood } from "../apis/getFoodAPI.js";
 import { useNavigate } from "react-router-dom";
 
 const HomePage = ({ user, setRecipeFood }) => {
@@ -116,12 +112,6 @@ const HomePage = ({ user, setRecipeFood }) => {
     setItems(updatedItems);
   };
 
-  const deleteItem = (selectedFoodID) => {
-    selectedFoodID.map((food_id) => {
-      deleteFoodData(user.user_id, food_id);
-    });
-  };
-
   useEffect(() => {
     fetchData();
   }, []); // user_id 변경 시에만 데이터 다시 로드?
@@ -173,9 +163,7 @@ const HomePage = ({ user, setRecipeFood }) => {
             type="button"
             className="deleteFood"
             //수정 필요
-            onClick={() => {
-              deleteItem(selectedFoodID);
-            }}
+            onClick={() => {deleteFoodData(user.user_id, selectedFoodNames);}}
           >
             삭제
           </button>
@@ -195,7 +183,7 @@ const HomePage = ({ user, setRecipeFood }) => {
             setSortCriteria={setSortCriteria}
             setSortDirection={setSortDirection}
             setSelectedFoodNames={setSelectedFoodNames}
-            setSelectedFoodID={setSelectedFoodID}
+            setSelectedFoodID = {setSelectedFoodID}
           />
         </div>
       </div>
@@ -220,7 +208,7 @@ export const data = [
     food_name: "햇반",
     food_pic: pic1,
     category: "밥",
-    item_amount: 1,
+    food_amount: 1,
     purchase_date: "2024-02-19T15:00:00.000Z",
     expiration_date: "2024-12-11T15:00:00.000Z",
     user_id: 4,
@@ -230,7 +218,7 @@ export const data = [
     food_name: "카레이름",
     food_pic: pic2,
     category: "카테카테",
-    item_amount: 2,
+    food_amount: 2,
     purchase_date: "2024-04-09T15:00:00.000Z",
     expiration_date: "2024-05-17T15:00:00.000Z",
     user_id: 4,
@@ -240,7 +228,7 @@ export const data = [
     food_name: "육회비빔밥",
     food_pic: "",
     category: "밥",
-    item_amount: 1,
+    food_amount: 1,
     purchase_date: "2024-05-17T15:00:00.000Z",
     expiration_date: "2024-05-22T15:00:00.000Z",
     user_id: 4,
@@ -250,7 +238,7 @@ export const data = [
     food_name: "된장찌개",
     food_pic: pic3,
     category: "국",
-    item_amount: 1,
+    food_amount: 1,
     purchase_date: "2024-05-19T15:00:00.000Z",
     expiration_date: "2024-06-07T15:00:00.000Z",
     user_id: 4,
@@ -260,7 +248,7 @@ export const data = [
     food_name: "마라탕",
     food_pic: pic4,
     category: "탕",
-    item_amount: 1,
+    food_amount: 1,
     purchase_date: "2024-05-15T15:00:00.000Z",
     expiration_date: "2024-06-01T15:00:00.000Z",
     user_id: 4,
@@ -270,7 +258,7 @@ export const data = [
     food_name: "탕후루",
     food_pic: pic5,
     category: "간식",
-    item_amount: 4,
+    food_amount: 4,
     purchase_date: "2024-05-16T15:00:00.000Z",
     expiration_date: "2024-05-25T15:00:00.000Z",
     user_id: 4,
