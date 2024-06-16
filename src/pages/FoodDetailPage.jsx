@@ -2,44 +2,63 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { calculateDaysLeft } from "../components/FoodTable.jsx";
 import "./FoodDetailPage.css";
-import pic5 from "../assets/탕후루.jpg";
-
-// FoodDetailPage.jsx 수정해야 할 부분
-// 각 식품마다 상세 페이지.. 데이터 연결하는 부분
+import CompleteModal from "../components/CompleteModal/CompleteModal.jsx"
+import { data } from "./Homepage.jsx"
 
 const FoodDetailPage = () => {
   const { food_id } = useParams();
   const navigate = useNavigate();
 
   // 초기 식품 데이터 예시로 설정
-  const [foodDetail, setFoodDetail] = useState({
-    food_id: 6,
-    food_name: "탕후루",
-    food_pic: pic5,
-    category: "간식",
-    item_amount: 4,
-    purchase_date: "2024-05-16T15:00:00.000Z",
-    expiration_date: "2024-05-25T15:00:00.000Z",
-    user_id: 4,
-  });
-
+  const [foodDetail, setFoodDetail] = useState({});
   // 수정 가능한 값(수량, 구매 날짜, 유통 기한)을 위한 상태
   const [editableDetail, setEditableDetail] = useState({
-    item_amount: foodDetail.item_amount,
-    purchase_date: foodDetail.purchase_date,
-    expiration_date: foodDetail.expiration_date,
+    item_amount: "",
+    purchase_date: "",
+    expiration_date: "",
   });
 
-  const daysLeft = calculateDaysLeft(foodDetail.expiration_date);
-  const alert_date = 5;
   const [memo, setMemo] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
 
-  // 페이지 로드 시 로컬 스토리지? 에서 메모 불러오기 ?..
+  // // food_id에 해당하는 데이터를 가져오는 함수
+  // useEffect(() => {
+  //   const fetchFoodDetail = async () => {
+  //     try {
+  //       const response = await fetch(`/api/food/${food_id}`);
+  //       const data = await response.json();
+  //       setFoodDetail(data);
+  //     } catch (error) {
+  //       console.error("Error fetching food detail:", error);
+  //     }
+  //   };
+  //   fetchFoodDetail();
+  // }, [food_id]);
+
+  // food_id에 해당하는 데이터를 가져오는 함수
   useEffect(() => {
-    const savedMemo = localStorage.getItem(`memo_${food_id}`);
-    if (savedMemo) {
-      setMemo(savedMemo);
-    }
+    const fetchFoodDetail = () => {
+      // 여기서 data 배열에서 food_id에 해당하는 데이터를 찾습니다.
+      const detail = data.find(item => item.food_id === parseInt(food_id));
+      if (detail) {
+        setFoodDetail(detail);
+        setEditableDetail({
+          item_amount: detail.item_amount,
+          purchase_date: detail.purchase_date,
+          expiration_date: detail.expiration_date,
+        });
+
+        // 페이지 로드 시 로컬 스토리지? 에서 메모 불러오기 ?..
+        const savedMemo = localStorage.getItem(`memo_${food_id}`);
+        if (savedMemo) {
+          setMemo(savedMemo);
+        }
+      } else {
+        console.log(`Food with id ${food_id} not found in data array.`);
+      }
+    };
+    fetchFoodDetail();
   }, [food_id]);
 
   // 메모 입력값 업데이트하는 함수
@@ -53,7 +72,11 @@ const FoodDetailPage = () => {
   // 메모 저장하는 함수
   const handleMemoSave = () => {
     localStorage.setItem(`memo_${food_id}`, memo);
-    console.log("Memo saved:", memo);
+    setSuccessMessage("메모가 저장되었습니다.");
+    setIsModalOpen(true);
+    setTimeout(() => {
+      setIsModalOpen(false); // 3초 후 모달 닫기기
+    }, 1000);
   };
 
   // 수정된 값을 저장하는 함수
@@ -65,6 +88,7 @@ const FoodDetailPage = () => {
       purchase_date: editableDetail.purchase_date,
       expiration_date: editableDetail.expiration_date,
     });
+
     // 여기서 수정된 값으로 데이터를 업데이트 해야 함
     console.log("수정 후 저장된 데이터 :", {
       ...foodDetail,
@@ -72,6 +96,12 @@ const FoodDetailPage = () => {
       purchase_date: editableDetail.purchase_date,
       expiration_date: editableDetail.expiration_date,
     });
+
+    setSuccessMessage("수정이 완료되었습니다.");
+    setIsModalOpen(true);
+    setTimeout(() => {
+      setIsModalOpen(false); 
+    }, 1000);
   };
 
   // 수정된 값들을 업데이트하는 함수
@@ -86,8 +116,12 @@ const FoodDetailPage = () => {
     }));
   };
 
+  const daysLeft = calculateDaysLeft(foodDetail.expiration_date);
+  const alert_date = 3;
+
   return (
     <>
+      
       <div className="foodDetailPage">
         <div className="undoSection">
           <button className="undoButton" onClick={() => navigate(-1)} />
@@ -190,6 +224,12 @@ const FoodDetailPage = () => {
           </div>
         </div>
       </div>
+      {/* 모달창 */}
+      <CompleteModal
+      isModalOpen={isModalOpen}
+      message={successMessage}
+      onClose={() => setIsModalOpen(false)} 
+      />
     </>
   );
 };
