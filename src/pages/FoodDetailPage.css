@@ -55,10 +55,20 @@
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  padding: 30px 0px 50px 50px;
+  padding: 20px 0px 20px 50px;
   border: 2px dotted #dadada;
   border-radius: 5px;
   position: relative;
+}
+
+.detailText .detailRow {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.detailText .detailInfo {
+  min-width: 140px;
 }
 
 .detailText span {
@@ -79,13 +89,14 @@
 }
 
 .editableInput {
-  width: 30%;
+  width: 50%;
 }
 
 .expirationDateWrapper {
   display: flex;
   align-items: center;
   padding: 0px;
+  flex-wrap: nowrap;
 }
 
 .remainingTime {

@@ -136,16 +136,16 @@ const FoodDetailPage = () => {
           </div>
           <div className="detailText">
             <span className="detailTitle">ℹ️&nbsp;{foodDetail.food_name}</span>
-            <div>
-              <span>◦ 식품명 :&nbsp;&nbsp;</span>
+            <div className="detailRow">
+              <span className="detailInfo">◦ 식품명 :&nbsp;&nbsp;</span>
               <span className="foodName">{foodDetail.food_name}</span>
             </div>
-            <div>
-              <span>◦ 카테고리 :&nbsp;&nbsp;</span>
+            <div className="detailRow">
+              <span className="detailInfo">◦ 카테고리 :&nbsp;&nbsp;</span>
               <span className="category">{foodDetail.category}</span>
             </div>
-            <div>
-              <span>◦ 수량 :&nbsp;&nbsp;</span>
+            <div className="detailRow">
+              <span className="detailInfo">◦ 수량 :&nbsp;&nbsp;</span>
               <input
                 className="editableInput"
                 type="number"
@@ -156,8 +156,8 @@ const FoodDetailPage = () => {
                 required
               />
             </div>
-            <div>
-              <span>◦ 구입 날짜 :&nbsp;&nbsp;</span>
+            <div className="detailRow">
+              <span className="detailInfo">◦ 구입 날짜 :&nbsp;&nbsp;</span>
               <input
                 className="editableInput"
                 type="date"
@@ -168,7 +168,7 @@ const FoodDetailPage = () => {
               />
             </div>
             <div className="expirationDateWrapper">
-              <span>◦ 유통 기한 :&nbsp;&nbsp;</span>
+              <span className="detailInfo">◦ 유통 기한 :&nbsp;&nbsp;</span>
               <input
                 className="editableInput"
                 type="date"
@@ -177,22 +177,24 @@ const FoodDetailPage = () => {
                 onChange={handleInputChange}
                 required
               />
+            </div>
+            <div className="detailRow">
               <span className="remainingTime">
-                {daysLeft < 0 && (
-                  <span style={{ color: "red" }}>
-                    (유통기한 지남, D+{Math.abs(daysLeft)})
-                  </span>
-                )}
-                {daysLeft >= 0 && (
-                  <>
-                    {daysLeft <= alert_date ? (
-                      <span style={{ color: "red" }}>(D-{daysLeft})</span>
-                    ) : (
-                      <span>(D-{daysLeft})</span>
-                    )}
-                  </>
-                )}
-              </span>
+                  {daysLeft < 0 && (
+                    <span style={{ color: "red" }}>
+                      (유통기한 지남, D+{Math.abs(daysLeft)})
+                    </span>
+                  )}
+                  {daysLeft >= 0 && (
+                    <>
+                      {daysLeft <= alert_date ? (
+                        <span style={{ color: "red" }}>(D-{daysLeft})</span>
+                      ) : (
+                        <span>(D-{daysLeft})</span>
+                      )}
+                    </>
+                  )}
+                </span>
             </div>
             <div className="saveSection">
               <button className="saveButton" onClick={handleSave}>
