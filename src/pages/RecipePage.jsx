@@ -50,7 +50,11 @@ const RecipePage = ({ location, recipeFood }) => {
         )}
       </div>
       <div className="RecipeBox" ref={recipeBoxRef}>
-        <p>{recipeData}</p>
+        <textarea
+          className=" w-full h-full"
+          value={recipeData}
+          readOnly
+          />
       </div>
       <button className="copyButton" onClick={handleCopy}>
         복사

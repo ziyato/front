@@ -4,12 +4,13 @@ import { calculateDaysLeft } from "../components/FoodTable.jsx";
 import "./FoodDetailPage.css";
 import CompleteModal from "../components/CompleteModal/CompleteModal.jsx";
 import { data } from "./Homepage.jsx";
-import { getFoodData } from "../apis/getFoodAPI.js";
+import { getFoodData, postFoodTips } from "../apis/getFoodAPI.js";
 
 const FoodDetailPage = ({ propsUserData }) => {
   const navigate = useNavigate();
   const { food_id } = useParams();
   const [foodDetail, setFoodDetail] = useState({}); //음식 데이터
+  const [foodTip, setFoodTip] = useState(); //음식 데이터
   // 수정 가능한 값(수량, 구매 날짜, 유통 기한)을 위한 상태
   const [editableDetail, setEditableDetail] = useState({
     item_amount: "",
@@ -26,7 +27,10 @@ const FoodDetailPage = ({ propsUserData }) => {
       navigate("/login");
     }
     getFoodData(propsUserData.user_id, food_id).then((response) => {
-      console.log(`${propsUserData.username}님의 ${food_id}번 음식 : `, response[0]);
+      console.log(
+        `${propsUserData.username}님의 ${food_id}번 음식 : `,
+        response[0]
+      );
       setFoodDetail(response[0]);
       setEditableDetail({
         item_amount: response[0].item_amount,
@@ -185,21 +189,21 @@ const FoodDetailPage = ({ propsUserData }) => {
             </div>
             <div className="detailRow">
               <span className="remainingTime">
-                  {daysLeft < 0 && (
-                    <span style={{ color: "red" }}>
-                      (유통기한 지남, D+{Math.abs(daysLeft)})
-                    </span>
-                  )}
-                  {daysLeft >= 0 && (
-                    <>
-                      {daysLeft <= alert_date ? (
-                        <span style={{ color: "red" }}>(D-{daysLeft})</span>
-                      ) : (
-                        <span>(D-{daysLeft})</span>
-                      )}
-                    </>
-                  )}
-                </span>
+                {daysLeft < 0 && (
+                  <span style={{ color: "red" }}>
+                    (유통기한 지남, D+{Math.abs(daysLeft)})
+                  </span>
+                )}
+                {daysLeft >= 0 && (
+                  <>
+                    {daysLeft <= alert_date ? (
+                      <span style={{ color: "red" }}>(D-{daysLeft})</span>
+                    ) : (
+                      <span>(D-{daysLeft})</span>
+                    )}
+                  </>
+                )}
+              </span>
             </div>
             <div className="saveSection">
               <button className="saveButton" onClick={handleSave}>
@@ -227,7 +231,24 @@ const FoodDetailPage = ({ propsUserData }) => {
         <div className="tipSection">
           <span>◦ Tip</span>
           <div className="chatGPTSection">
-            <span>여기에다가 ChatGPT 연결</span>
+            {foodTip ? (
+              <textarea
+                className="w-full h-full bg-inherit p-4 leading-7"
+                value={foodTip}
+                readOnly
+              />
+            ) : (
+              <button
+                onClick={() => {
+                  setFoodTip("잠시만 기다려주세요...");
+                  postFoodTips(foodDetail.food_name).then((response) => {
+                    setFoodTip(response);
+                  });
+                }}
+              >
+                버튼을 눌러 팁 확인하기
+              </button>
+            )}
           </div>
         </div>
       </div>
