@@ -1,14 +1,17 @@
 import React, { useState } from "react";
 import "./MyPage.css"; // CSS 파일 import
 import noImage from "../assets/noImage.jpeg";
+import CompleteModal from "../components/CompleteModal/CompleteModal.jsx";
 
 const MyPage = ({ user }) => {
   // 알림 설정 상태
   const [notificationOn, setNotificationOn] = useState(false);
-  const [selectedDate, setSelectedDate] = useState("");
+  const [selectedDate, setSelectedDate] = useState(user.alert_date || "");
   const [nickname, setNickname] = useState("");
   const [photoURL, setPhotoURL] = useState(""); // 프로필 사진 상태 추가
   const [userData, setUserData] = useState({}); // 사용자 정보 상태 추가
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
 
   const handleCancel = () => {
     window.location.href = "/"; // 홈페이지로 이동
@@ -34,14 +37,20 @@ const MyPage = ({ user }) => {
   // 알림 기준 일자 변경 함수
   const handleDateChange = (event) => {
     setSelectedDate(event.target.value);
+    console.log(selectedDate)
   };
 
-  // 닉네임 수정 함수
-  const handleNicknameUpdate = () => {
-    // 닉네임 수정 로직
+  const handleSave = () => {
+    // 저장 로직
+    setSuccessMessage("저장이 완료되었습니다.");
+    setIsModalOpen(true);
+    setTimeout(() => {
+      setIsModalOpen(false); 
+    }, 1000);
   };
 
   return (
+    <>
     <div className="my-page-container">
       {/* 위에 있는 행 (left-section과 right-section) */}
       <div className="flex">
@@ -89,7 +98,7 @@ const MyPage = ({ user }) => {
                 name="email"
                 // handleChange={handleInputFrameworkChange}
                 inputValue={user.email}
-                con
+                
               />
               <InputForm
                 title="비밀번호 수정"
@@ -130,7 +139,9 @@ const MyPage = ({ user }) => {
               >
                 취소
               </button>
-              <button className="save-button w-16 h-10">저장</button>
+              <button 
+              className="save-button w-16 h-10"
+              onClick={handleSave}>저장</button>
             </div>
           </div>
         </div>
@@ -162,7 +173,7 @@ const MyPage = ({ user }) => {
             <select
               id="notification-date"
               className="date-select-box"
-              value={user.alert_date}
+              value={selectedDate}
               onChange={handleDateChange}
             >
               <option value="">선택하세요</option>
@@ -176,6 +187,13 @@ const MyPage = ({ user }) => {
         )}
       </div>
     </div>
+    {/* 모달창 */}
+    <CompleteModal
+    isModalOpen={isModalOpen}
+    message={successMessage}
+    onClose={() => setIsModalOpen(false)} 
+    />
+  </>
   );
 };
 
@@ -194,7 +212,7 @@ function InputForm({
       <input
         type={type}
         name={name}
-        className="block w-1/2 h-9 rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 leading-6"
+        className="block w-full max-w-xs h-9 rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 leading-6"
         onChange={handleChange}
         value={inputValue}
         readOnly={isReadOnly}
