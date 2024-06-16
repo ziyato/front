@@ -1,5 +1,5 @@
 import React from 'react';
-import "./CompleteModal.css"; 
+import './CompleteModal.css';
 
 const CompleteModal = ({ isModalOpen, message, onClose }) => {
   if (!isModalOpen) return null;

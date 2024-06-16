@@ -9,7 +9,7 @@ const headers = [
   { text: "식품명", value: "food_name" },
   { text: "카테고리", value: "category" },
   { text: "유통기한", value: "expiration_date" },
-  { text: "수량", value: "item_amount" },
+  { text: "수량", value: "food_amount" },
 ];
 
 // 남은 일수 계산하는 함수
