@@ -35,7 +35,7 @@ function App() {
 
       <Routes>
         <Route path="/" element={user ? <HomePage user={user} setRecipeFood={setRecipeFood} /> : <Login />} />
-        <Route path="/food/:food_id" element={<FoodDetailPage />} />
+        <Route path="/food/:food_id" element={<FoodDetailPage propsUserData={user}/>} />
         <Route path="/recipe" element={<RecipePage recipeFood={recipeFood}/>} />
         <Route path="/about" element={<About />} />
 

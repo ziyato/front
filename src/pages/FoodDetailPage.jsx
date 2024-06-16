@@ -2,15 +2,14 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { calculateDaysLeft } from "../components/FoodTable.jsx";
 import "./FoodDetailPage.css";
-import CompleteModal from "../components/CompleteModal/CompleteModal.jsx"
-import { data } from "./Homepage.jsx"
+import CompleteModal from "../components/CompleteModal/CompleteModal.jsx";
+import { data } from "./Homepage.jsx";
+import { getFoodData } from "../apis/getFoodAPI.js";
 
-const FoodDetailPage = () => {
-  const { food_id } = useParams();
+const FoodDetailPage = ({ propsUserData }) => {
   const navigate = useNavigate();
-
-  // 초기 식품 데이터 예시로 설정
-  const [foodDetail, setFoodDetail] = useState({});
+  const { food_id } = useParams();
+  const [foodDetail, setFoodDetail] = useState({}); //음식 데이터
   // 수정 가능한 값(수량, 구매 날짜, 유통 기한)을 위한 상태
   const [editableDetail, setEditableDetail] = useState({
     item_amount: "",
@@ -22,44 +21,51 @@ const FoodDetailPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
 
-  // // food_id에 해당하는 데이터를 가져오는 함수
+  useEffect(() => {
+    if (!propsUserData) {
+      navigate("/login");
+    }
+    getFoodData(propsUserData.user_id, food_id).then((response) => {
+      console.log(`${propsUserData.username}님의 ${food_id}번 음식 : `, response[0]);
+      setFoodDetail(response[0]);
+      setEditableDetail({
+        item_amount: response[0].item_amount,
+        purchase_date: response[0].purchase_date,
+        expiration_date: response[0].expiration_date,
+      });
+    });
+
+    // 페이지 로드 시 로컬 스토리지? 에서 메모 불러오기 ?.. <-- 이건 왜하는건지 모르겠음
+    const savedMemo = localStorage.getItem(`memo_${food_id}`);
+    if (savedMemo) {
+      setMemo(savedMemo);
+    }
+  }, []);
+
+  // food_id에 해당하는 데이터를 가져오는 함수
   // useEffect(() => {
-  //   const fetchFoodDetail = async () => {
-  //     try {
-  //       const response = await fetch(`/api/food/${food_id}`);
-  //       const data = await response.json();
-  //       setFoodDetail(data);
-  //     } catch (error) {
-  //       console.error("Error fetching food detail:", error);
+  //   const fetchFoodDetail = () => {
+  //     // 여기서 data 배열에서 food_id에 해당하는 데이터를 찾습니다.
+  //     const detail = data.find(item => item.food_id === parseInt(food_id));
+  //     if (detail) {
+  //       setFoodDetail(detail);
+  //       setEditableDetail({
+  //         item_amount: detail.item_amount,
+  //         purchase_date: detail.purchase_date,
+  //         expiration_date: detail.expiration_date,
+  //       });
+
+  //       // 페이지 로드 시 로컬 스토리지? 에서 메모 불러오기 ?..
+  //       const savedMemo = localStorage.getItem(`memo_${food_id}`);
+  //       if (savedMemo) {
+  //         setMemo(savedMemo);
+  //       }
+  //     } else {
+  //       console.log(`Food with id ${food_id} not found in data array.`);
   //     }
   //   };
   //   fetchFoodDetail();
   // }, [food_id]);
-
-  // food_id에 해당하는 데이터를 가져오는 함수
-  useEffect(() => {
-    const fetchFoodDetail = () => {
-      // 여기서 data 배열에서 food_id에 해당하는 데이터를 찾습니다.
-      const detail = data.find(item => item.food_id === parseInt(food_id));
-      if (detail) {
-        setFoodDetail(detail);
-        setEditableDetail({
-          item_amount: detail.item_amount,
-          purchase_date: detail.purchase_date,
-          expiration_date: detail.expiration_date,
-        });
-
-        // 페이지 로드 시 로컬 스토리지? 에서 메모 불러오기 ?..
-        const savedMemo = localStorage.getItem(`memo_${food_id}`);
-        if (savedMemo) {
-          setMemo(savedMemo);
-        }
-      } else {
-        console.log(`Food with id ${food_id} not found in data array.`);
-      }
-    };
-    fetchFoodDetail();
-  }, [food_id]);
 
   // 메모 입력값 업데이트하는 함수
   const handleMemoChange = (e) => {
@@ -100,7 +106,7 @@ const FoodDetailPage = () => {
     setSuccessMessage("수정이 완료되었습니다.");
     setIsModalOpen(true);
     setTimeout(() => {
-      setIsModalOpen(false); 
+      setIsModalOpen(false);
     }, 1000);
   };
 
@@ -121,7 +127,6 @@ const FoodDetailPage = () => {
 
   return (
     <>
-      
       <div className="foodDetailPage">
         <div className="undoSection">
           <button className="undoButton" onClick={() => navigate(-1)} />
@@ -226,9 +231,9 @@ const FoodDetailPage = () => {
       </div>
       {/* 모달창 */}
       <CompleteModal
-      isModalOpen={isModalOpen}
-      message={successMessage}
-      onClose={() => setIsModalOpen(false)} 
+        isModalOpen={isModalOpen}
+        message={successMessage}
+        onClose={() => setIsModalOpen(false)}
       />
     </>
   );
