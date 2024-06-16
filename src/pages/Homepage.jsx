@@ -8,7 +8,11 @@ import pic3 from "../assets/된찌.jpg";
 import pic4 from "../assets/마라탕.jpg";
 import pic5 from "../assets/탕후루.jpg";
 import ToastModal from "../components/ToastModal/ToastModal";
-import { deleteFoodData, getFoodDataAll, getSearchFood } from "../apis/getFoodAPI.js";
+import {
+  deleteFoodData,
+  getFoodDataAll,
+  getSearchFood,
+} from "../apis/getFoodAPI.js";
 import { useNavigate } from "react-router-dom";
 
 const HomePage = ({ user, setRecipeFood }) => {
@@ -112,6 +116,12 @@ const HomePage = ({ user, setRecipeFood }) => {
     setItems(updatedItems);
   };
 
+  const deleteItem = (selectedFoodID) => {
+    selectedFoodID.map((food_id) => {
+      deleteFoodData(user.user_id, food_id);
+    });
+  };
+
   useEffect(() => {
     fetchData();
   }, []); // user_id 변경 시에만 데이터 다시 로드?
@@ -163,7 +173,9 @@ const HomePage = ({ user, setRecipeFood }) => {
             type="button"
             className="deleteFood"
             //수정 필요
-            onClick={() => {deleteFoodData(user.user_id, selectedFoodNames);}}
+            onClick={() => {
+              deleteItem(selectedFoodID);
+            }}
           >
             삭제
           </button>
@@ -183,7 +195,7 @@ const HomePage = ({ user, setRecipeFood }) => {
             setSortCriteria={setSortCriteria}
             setSortDirection={setSortDirection}
             setSelectedFoodNames={setSelectedFoodNames}
-            setSelectedFoodID = {setSelectedFoodID}
+            setSelectedFoodID={setSelectedFoodID}
           />
         </div>
       </div>
