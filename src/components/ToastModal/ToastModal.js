@@ -41,7 +41,7 @@ const ToastModal = ({ isOpen, onClose, addItem, user_id }) => {
       food_name: foodName,
       food_pic: photoURL,
       category: category,
-      item_amount: parseInt(quantity, 10), // quantity 정수로 변환
+      food_amount: parseInt(quantity, 10), // quantity 정수로 변환
       purchase_date: new Date(manufacturingDate).toISOString(),
       expiration_date: new Date(expiryDate).toISOString(),
       user_id: user_id,

@@ -12,7 +12,7 @@ const FoodDetailPage = ({ propsUserData }) => {
   const [foodDetail, setFoodDetail] = useState({}); //음식 데이터
   // 수정 가능한 값(수량, 구매 날짜, 유통 기한)을 위한 상태
   const [editableDetail, setEditableDetail] = useState({
-    item_amount: "",
+    food_amount: "",
     purchase_date: "",
     expiration_date: "",
   });
@@ -29,17 +29,12 @@ const FoodDetailPage = ({ propsUserData }) => {
       console.log(`${propsUserData.username}님의 ${food_id}번 음식 : `, response[0]);
       setFoodDetail(response[0]);
       setEditableDetail({
-        item_amount: response[0].item_amount,
+        food_amount: response[0].food_amount,
         purchase_date: response[0].purchase_date,
         expiration_date: response[0].expiration_date,
       });
     });
 
-    // 페이지 로드 시 로컬 스토리지? 에서 메모 불러오기 ?.. <-- 이건 왜하는건지 모르겠음
-    const savedMemo = localStorage.getItem(`memo_${food_id}`);
-    if (savedMemo) {
-      setMemo(savedMemo);
-    }
   }, []);
 
   // food_id에 해당하는 데이터를 가져오는 함수
@@ -50,19 +45,11 @@ const FoodDetailPage = ({ propsUserData }) => {
   //     if (detail) {
   //       setFoodDetail(detail);
   //       setEditableDetail({
-  //         item_amount: detail.item_amount,
+  //         food_amount: detail.food_amount,
   //         purchase_date: detail.purchase_date,
   //         expiration_date: detail.expiration_date,
   //       });
 
-  //       // 페이지 로드 시 로컬 스토리지? 에서 메모 불러오기 ?..
-  //       const savedMemo = localStorage.getItem(`memo_${food_id}`);
-  //       if (savedMemo) {
-  //         setMemo(savedMemo);
-  //       }
-  //     } else {
-  //       console.log(`Food with id ${food_id} not found in data array.`);
-  //     }
   //   };
   //   fetchFoodDetail();
   // }, [food_id]);
@@ -75,9 +62,8 @@ const FoodDetailPage = ({ propsUserData }) => {
     }
   };
 
-  // 메모 저장하는 함수
+  // 메모 저장 함수
   const handleMemoSave = () => {
-    localStorage.setItem(`memo_${food_id}`, memo);
     setSuccessMessage("메모가 저장되었습니다.");
     setIsModalOpen(true);
     setTimeout(() => {
@@ -90,7 +76,7 @@ const FoodDetailPage = ({ propsUserData }) => {
     console.log("수정 전 데이터 :", foodDetail);
     setFoodDetail({
       ...foodDetail,
-      item_amount: parseInt(editableDetail.item_amount, 10),
+      food_amount: parseInt(editableDetail.food_amount, 10),
       purchase_date: editableDetail.purchase_date,
       expiration_date: editableDetail.expiration_date,
     });
@@ -98,7 +84,7 @@ const FoodDetailPage = ({ propsUserData }) => {
     // 여기서 수정된 값으로 데이터를 업데이트 해야 함
     console.log("수정 후 저장된 데이터 :", {
       ...foodDetail,
-      item_amount: parseInt(editableDetail.item_amount, 10),
+      food_amount: parseInt(editableDetail.food_amount, 10),
       purchase_date: editableDetail.purchase_date,
       expiration_date: editableDetail.expiration_date,
     });
@@ -154,9 +140,9 @@ const FoodDetailPage = ({ propsUserData }) => {
               <input
                 className="editableInput"
                 type="number"
-                name="item_amount"
+                name="food_amount"
                 min="1"
-                value={editableDetail.item_amount}
+                value={editableDetail.food_amount}
                 onChange={handleInputChange}
                 required
               />
