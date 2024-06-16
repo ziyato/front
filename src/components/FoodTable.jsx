@@ -1,5 +1,7 @@
+// front/src/components/FoodTable.jsx
 import React, { useState, useEffect } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
+import NoticeModal from "./NoticeModal/NoticeModal";
 
 // 테이블 헤더 정의 (고정)
 const headers = [
@@ -34,10 +36,12 @@ function FoodTable({
   setSortDirection,
 
   setSelectedFoodNames,
+  setSelectedFoodID,
 }) {
   const navigate = useNavigate(); // useNavigate 훅 사용
   const { alert_date } = user; // userInfo로부터 알림 기준 일수 추출
   const [selection, setSelection] = useState([]); // 선택된 항목들 관리하는 state, food_id 담김
+  const [notifications, setNotifications] = useState([]);
   const headerKey = headers.map((header) => header.value); // 헤더의 value 값 배열로 변환
 
   // 정렬 함수
@@ -50,6 +54,14 @@ function FoodTable({
     setSelection([]); // 정렬 후 선택 상태 초기화
     return sortedItems; // 정렬된 아이템 반환
   };
+  
+    // 유통기한이 지난 아이템을 찾아 알림에 추가하는 함수
+    useEffect(() => {
+      const expiredItems = items.filter(item => calculateDaysLeft(item.expiration_date) < 0);
+      const expiredNotifications = expiredItems.map(item => `유통기한이 지난 식품: ${item.food_name}`);
+      setNotifications(expiredNotifications);
+    }, [items]); // items 배열이 업데이트될 때마다 실행
+  
 
   // 헤더 렌더링 함수 + 정렬 기능
   const renderHeaderWithSort = () => {
@@ -111,6 +123,11 @@ function FoodTable({
         (id) => items.find((item) => item.food_id === id).food_name
       )
     );
+    setSelectedFoodID(
+      newSelection.map(
+        (id) => items.find((item) => item.food_id === id).food_id
+      )
+    );
   };
 
   // 전체 선택 체크박스 상태 변경 함수
@@ -134,8 +151,10 @@ function FoodTable({
   };
 
   return (
+  
     <div className="tableContainer">
       <table className="foodTable">
+    
         <thead className="tableHeader">
           <tr>
             {/* 전체 선택 체크박스 */}
