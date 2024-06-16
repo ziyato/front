@@ -10,13 +10,13 @@ const NoticeModal = ({ notifications, onClose }) => {
           <h2>알림 목록</h2>
           <button className="close-button" onClick={onClose}>X</button>
         </div>
-        <div className="modal-content">
+        {/* <div className="modal-content">
           {notifications.map((notification, index) => (
             <div key={index} className="notification">
               {notification}
             </div>
           ))}
-        </div>
+        </div> */}
       </div>
     </div>
   );
