@@ -8,73 +8,8 @@ import pic3 from "../assets/된찌.jpg";
 import pic4 from "../assets/마라탕.jpg";
 import pic5 from "../assets/탕후루.jpg";
 import ToastModal from "../components/ToastModal/ToastModal";
-import { getFoodDataAll, getSearchFood } from "../apis/getFoodAPI.js";
+import { deleteFoodData, getFoodDataAll, getSearchFood } from "../apis/getFoodAPI.js";
 import { useNavigate } from "react-router-dom";
-
-// 식품 데이터 예시
-export const data = [
-  {
-    food_id: 1,
-    food_name: "햇반",
-    food_pic: pic1,
-    category: "밥",
-    item_amount: 1,
-    purchase_date: "2024-02-19T15:00:00.000Z",
-    expiration_date: "2024-12-11T15:00:00.000Z",
-    user_id: 4,
-  },
-  {
-    food_id: 2,
-    food_name: "카레이름",
-    food_pic: pic2,
-    category: "카테카테",
-    item_amount: 2,
-    purchase_date: "2024-04-09T15:00:00.000Z",
-    expiration_date: "2024-05-17T15:00:00.000Z",
-    user_id: 4,
-  },
-  {
-    food_id: 3,
-    food_name: "육회비빔밥",
-    food_pic: "",
-    category: "밥",
-    item_amount: 1,
-    purchase_date: "2024-05-17T15:00:00.000Z",
-    expiration_date: "2024-05-22T15:00:00.000Z",
-    user_id: 4,
-  },
-  {
-    food_id: 4,
-    food_name: "된장찌개",
-    food_pic: pic3,
-    category: "국",
-    item_amount: 1,
-    purchase_date: "2024-05-19T15:00:00.000Z",
-    expiration_date: "2024-06-07T15:00:00.000Z",
-    user_id: 4,
-  },
-  {
-    food_id: 5,
-    food_name: "마라탕",
-    food_pic: pic4,
-    category: "탕",
-    item_amount: 1,
-    purchase_date: "2024-05-15T15:00:00.000Z",
-    expiration_date: "2024-06-01T15:00:00.000Z",
-    user_id: 4,
-  },
-  {
-    food_id: 6,
-    food_name: "탕후루",
-    food_pic: pic5,
-    category: "간식",
-    item_amount: 4,
-    purchase_date: "2024-05-16T15:00:00.000Z",
-    expiration_date: "2024-05-25T15:00:00.000Z",
-    user_id: 4,
-  },
-];
-
 
 const HomePage = ({ user, setRecipeFood }) => {
   const navigate = useNavigate(); // useNavigate 훅 사용
@@ -82,6 +17,7 @@ const HomePage = ({ user, setRecipeFood }) => {
   const [searchCategory, setSearchCategory] = useState("food_name"); // 검색 기준 초기값 식품명으로 설정
   const [searchKeyword, setSearchKeyword] = useState(""); // 검색 키워드 상태를 빈 문자열로 설정
   const [selectedFoodNames, setSelectedFoodNames] = useState([]);
+  const [selectedFoodID, setSelectedFoodID] = useState([]);
 
   const [sortCriteria, setSortCriteria] = useState("expiration_date"); // 정렬 기준 초기값 유통기한으로 설정
   const [sortDirection, setSortDirection] = useState(true); // 정렬 방향 초기값 오름차순으로 설
@@ -176,7 +112,6 @@ const HomePage = ({ user, setRecipeFood }) => {
     setItems(updatedItems);
   };
 
-  // HomePage 컴포넌트 처음 렌더링되고 화면에 표시될 때 데이터 로드
   useEffect(() => {
     fetchData();
   }, []); // user_id 변경 시에만 데이터 다시 로드?
@@ -186,7 +121,8 @@ const HomePage = ({ user, setRecipeFood }) => {
       <button className="bg-amber-500" onClick={() => setItems(data)}>
         임시 음식 추가
       </button>
-      <button onClick={() => console.log(selectedFoodNames)}>asdf</button>
+      <button onClick={() => console.log(selectedFoodNames)}>'음식이름'</button>
+      <button onClick={() => console.log(selectedFoodID)}>'음식ID'</button>
       <div className="searchSection">
         {/* 검색 기준 선택할 수 있는 드롭다운 */}
         <select
@@ -226,7 +162,8 @@ const HomePage = ({ user, setRecipeFood }) => {
           <button
             type="button"
             className="deleteFood"
-            onClick={() => FoodTable.handleDelete()}
+            //수정 필요
+            onClick={() => {deleteFoodData(user.user_id, selectedFoodNames);}}
           >
             삭제
           </button>
@@ -246,6 +183,7 @@ const HomePage = ({ user, setRecipeFood }) => {
             setSortCriteria={setSortCriteria}
             setSortDirection={setSortDirection}
             setSelectedFoodNames={setSelectedFoodNames}
+            setSelectedFoodID = {setSelectedFoodID}
           />
         </div>
       </div>
@@ -262,3 +200,67 @@ const HomePage = ({ user, setRecipeFood }) => {
   );
 };
 export default HomePage;
+
+// 식품 데이터 예시
+export const data = [
+  {
+    food_id: 1,
+    food_name: "햇반",
+    food_pic: pic1,
+    category: "밥",
+    item_amount: 1,
+    purchase_date: "2024-02-19T15:00:00.000Z",
+    expiration_date: "2024-12-11T15:00:00.000Z",
+    user_id: 4,
+  },
+  {
+    food_id: 2,
+    food_name: "카레이름",
+    food_pic: pic2,
+    category: "카테카테",
+    item_amount: 2,
+    purchase_date: "2024-04-09T15:00:00.000Z",
+    expiration_date: "2024-05-17T15:00:00.000Z",
+    user_id: 4,
+  },
+  {
+    food_id: 3,
+    food_name: "육회비빔밥",
+    food_pic: "",
+    category: "밥",
+    item_amount: 1,
+    purchase_date: "2024-05-17T15:00:00.000Z",
+    expiration_date: "2024-05-22T15:00:00.000Z",
+    user_id: 4,
+  },
+  {
+    food_id: 4,
+    food_name: "된장찌개",
+    food_pic: pic3,
+    category: "국",
+    item_amount: 1,
+    purchase_date: "2024-05-19T15:00:00.000Z",
+    expiration_date: "2024-06-07T15:00:00.000Z",
+    user_id: 4,
+  },
+  {
+    food_id: 5,
+    food_name: "마라탕",
+    food_pic: pic4,
+    category: "탕",
+    item_amount: 1,
+    purchase_date: "2024-05-15T15:00:00.000Z",
+    expiration_date: "2024-06-01T15:00:00.000Z",
+    user_id: 4,
+  },
+  {
+    food_id: 6,
+    food_name: "탕후루",
+    food_pic: pic5,
+    category: "간식",
+    item_amount: 4,
+    purchase_date: "2024-05-16T15:00:00.000Z",
+    expiration_date: "2024-05-25T15:00:00.000Z",
+    user_id: 4,
+  },
+];

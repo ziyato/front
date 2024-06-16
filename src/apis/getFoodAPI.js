@@ -28,6 +28,19 @@ export async function getFoodDataAll(user_id) {
   }
 }
 
+export async function getFoodData(user_id, food_id) {
+  try {
+    const response = await axios.get(
+      `${REACT_APP_BACKEND_URL}/api/icebox/${user_id}/${food_id}`
+    );
+    console.log(response);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
 export async function postFoodData(user_id, data) {
   try {
     const response = await axios.post(
@@ -36,6 +49,33 @@ export async function postFoodData(user_id, data) {
     );
     console.log(response);
     return response;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
+export async function deleteFoodData(user_id, food_id) {
+  try {
+    const response = await axios.delete(
+      `${REACT_APP_BACKEND_URL}/api/icebox/${user_id}/${food_id}`
+    );
+    console.log(response);
+    return response;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
+export async function postRecipe(data) {
+  try {
+    const response = await axios.post(
+      `${REACT_APP_BACKEND_URL}/api/recipe`,
+      data
+    );
+    console.log(response);
+    return response.data;
   } catch (error) {
     console.error(error);
     throw error;
