@@ -80,3 +80,19 @@ export async function postRecipe(data) {
     throw error;
   }
 }
+
+export async function postFoodTips(data) {
+  try {
+    const response = await axios.post(
+      `${REACT_APP_BACKEND_URL}/api/icebox/tips`,
+      {
+        foods: data,
+      }
+    );
+    console.log(response);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
