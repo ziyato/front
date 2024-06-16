@@ -70,10 +70,9 @@ export async function deleteFoodData(user_id, food_id) {
 
 export async function postRecipe(data) {
   try {
-    const response = await axios.post(
-      `${REACT_APP_BACKEND_URL}/api/recipe`,
-      data
-    );
+    const response = await axios.post(`${REACT_APP_BACKEND_URL}/api/recipe`, {
+      foods: data,
+    });
     console.log(response);
     return response.data;
   } catch (error) {
