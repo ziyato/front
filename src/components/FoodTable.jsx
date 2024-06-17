@@ -1,9 +1,7 @@
 // front/src/components/FoodTable.jsx
 import React, { useState, useEffect } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
-import NoticeModal from "./NoticeModal/NoticeModal";
+import { useNavigate } from "react-router-dom";
 
-// 테이블 헤더 정의 (고정)
 const headers = [
   { text: "사진", value: "food_pic" },
   { text: "식품명", value: "food_name" },
@@ -22,7 +20,6 @@ export const calculateDaysLeft = (expirationDate) => {
   return remainingTime;
 };
 
-// FoodTable 컴포넌트 정의
 function FoodTable({
   headers,
   items,
@@ -38,8 +35,8 @@ function FoodTable({
   setSelectedFoodNames,
   setSelectedFoodID,
 }) {
-  const navigate = useNavigate(); // useNavigate 훅 사용
-  const { alert_date } = user; // userInfo로부터 알림 기준 일수 추출
+  const navigate = useNavigate();
+  const { alert_date } = user;
   const [selection, setSelection] = useState([]); // 선택된 항목들 관리하는 state, food_id 담김
   const [notifications, setNotifications] = useState([]);
   const headerKey = headers.map((header) => header.value); // 헤더의 value 값 배열로 변환
@@ -71,7 +68,6 @@ function FoodTable({
     return headers.map((header) => (
       <th key={header.text}>
         {header.text}
-        {/* 정렬 버튼 추가 */}
         {header.text === "식품명" ||
         header.text === "카테고리" ||
         header.text === "유통기한" ? (
@@ -79,7 +75,6 @@ function FoodTable({
             style={{ paddingLeft: "10px" }}
             onClick={() => handleSort(header.value)}
           >
-            {/* 아이템 없을 때는 항상 ↕ 표시, 아이템 있을 때 정렬 기준에 따라 아이콘 표시 */}
             {items.length === 0
               ? "↕"
               : sortCriteria === header.value
@@ -158,7 +153,6 @@ function FoodTable({
       <table className="foodTable">
         <thead className="tableHeader">
           <tr>
-            {/* 전체 선택 체크박스 */}
             <th>
               <input
                 type="checkbox"
@@ -166,7 +160,6 @@ function FoodTable({
                 onChange={onChangeSelectAll}
               />
             </th>
-            {/* 테이블 헤더 출력 */}
             {renderHeaderWithSort()}
           </tr>
         </thead>
@@ -189,7 +182,6 @@ function FoodTable({
               </td>
             </tr>
           ) : (
-            // 아이템 있는 경우
             items.map((item, index) => (
               <tr
                 key={index}
@@ -224,7 +216,6 @@ function FoodTable({
                     }}
                   >
                     {key === "food_pic" ? (
-                      // 식품 이미지 출력
                       item[key] ? (
                         <img
                           src={item[key]}
@@ -232,7 +223,6 @@ function FoodTable({
                           style={{ width: "120px", height: "100px" }}
                         />
                       ) : (
-                        // 식품 이미지 없는 경우 No Images 출력
                         <div
                           style={{
                             width: "100%",

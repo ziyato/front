@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./ToastModal.css";
 import { postFoodData } from "../../apis/getFoodAPI";
 
-const ToastModal = ({ isOpen, onClose, addItem, user_id }) => {
+const ToastModal = ({ isOpen, onClose, user_id, fetchData }) => {
   const [foodName, setFoodName] = useState("");
   const [quantity, setQuantity] = useState("");
   const [manufacturingDate, setManufacturingDate] = useState("");
@@ -34,10 +34,7 @@ const ToastModal = ({ isOpen, onClose, addItem, user_id }) => {
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-
     const newItem = {
-      // food_id는 HomePage.jsx에서 설정
       food_name: foodName,
       food_pic: photoURL,
       category: category,
@@ -47,12 +44,11 @@ const ToastModal = ({ isOpen, onClose, addItem, user_id }) => {
       user_id: user_id,
     };
 
-    //이 둘중에 하나만 사용, 주석도 삭제하기
-    addItem(newItem);
-    postFoodData(user_id, newItem);
-
-    resetForm();
-    onClose();
+    postFoodData(user_id, newItem).then(() => {
+      fetchData();
+      resetForm();
+      onClose();
+    });
   };
 
   return (
@@ -133,14 +129,14 @@ const ToastModal = ({ isOpen, onClose, addItem, user_id }) => {
                 <button
                   className="cancel-button"
                   type="button"
-                  onClick={handleCancel}
+                  onClick={() => handleCancel()}
                 >
                   취소
                 </button>
                 <button
                   className="submit-button"
                   type="submit"
-                  onClick={handleSubmit}
+                  onClick={() => handleSubmit()}
                 >
                   완료
                 </button>
