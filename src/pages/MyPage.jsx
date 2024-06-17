@@ -3,9 +3,9 @@ import { useNavigate } from "react-router-dom";
 import "./MyPage.css";
 import noImage from "../assets/noImage.jpeg";
 import CompleteModal from "../components/CompleteModal/CompleteModal.jsx";
-import { putUserProfile } from "../apis/getUserAPI.js";
+import { getProfile, putUserProfile } from "../apis/getUserAPI.js";
 
-const MyPage = ({ user }) => {
+const MyPage = ({ user, initializeUser }) => {
   const navigate = useNavigate();
 
   const [notificationOn, setNotificationOn] = useState(false);
@@ -40,12 +40,18 @@ const MyPage = ({ user }) => {
       putUserProfile(user.user_id, {
         password: pwInput,
         alert_date: alertDate,
-      }).then((response) => {
-        console.log(response);
-        modalOpen("비밀번호가 변경되었습니다.");
-        setPWInput("");
-        setPWCheckInput("");
-      });
+      })
+        .then(async () => {
+          console.log("유저아이디:", user.user_id);
+          const editedProfile = await getProfile(user.user_id);
+          sessionStorage.setItem("user", JSON.stringify(editedProfile));
+          initializeUser();
+        })
+        .then(() => {
+          modalOpen("비밀번호가 변경되었습니다.");
+          setPWInput("");
+          setPWCheckInput("");
+        });
     } else {
       modalOpen("비밀번호 변경에 실패하였습니다.");
     }

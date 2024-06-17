@@ -63,7 +63,6 @@ const HomePage = ({ user, setRecipeFood }) => {
     if (user !== null) {
       try {
         const result = await getFoodDataAll(user_id);
-        console.log(result);
         return result;
       } catch (error) {
         console.log(error);
@@ -106,9 +105,9 @@ const HomePage = ({ user, setRecipeFood }) => {
 
   return (
     <div className="HomePage">
-     <button className="bg-amber-500" onClick={() => setItems(data)}>
+      {/* <button className="bg-amber-500" onClick={() => setItems(data)}>
         임시 음식 추가
-      </button>
+      </button> */}
       <div className="searchSection">
         {/* 검색 기준 선택할 수 있는 드롭다운 */}
         <select
@@ -134,7 +133,7 @@ const HomePage = ({ user, setRecipeFood }) => {
         />
       </div>
       <div className="tableInfo">
-        <span> 👤 {user.username} 님의 냉장고 </span>
+        <span className=" font-bold"> 👤 {user.username} 님의 냉장고 </span>
         <div>
           <button
             type="button"

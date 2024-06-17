@@ -1,5 +1,5 @@
 // import { CloudArrowUpIcon, LockClosedIcon, ServerIcon } from '@heroicons/react/20/solid'
-import Func2NameExample from "../assets/Func2NameExample.png";
+import NJGExample from "../assets/NJGExample.png";
 
 function About() {
   return (
@@ -43,11 +43,11 @@ function About() {
                 사용 설명
               </p>
               <h1 className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-                Func2Name
+                냉장고를 부탁해
               </h1>
               <p className="mt-6 text-xl leading-8 text-gray-700">
-                더이상 작명으로 고통받지 마세요. <br />
-                Func2Name은 당신의 함수를 위한 이름을 제공합니다.
+                더이상 냉장고 속 재고로 고통받지 마세요. <br />
+                "냉장고를 부탁해"는 당신의 냉장고를 위한 서비스입니다.
               </p>
             </div>
           </div>
@@ -55,7 +55,7 @@ function About() {
         <div className="-ml-12 -mt-12 p-12 lg:sticky lg:top-4 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:overflow-hidden">
           <img
             className=" w-[48rem] max-w-none rounded-xl bg-gray-900 shadow-xl ring-1 ring-gray-400/10 sm:w-[57rem]"
-            src={Func2NameExample}
+            src={NJGExample}
             alt=""
           />
         </div>
@@ -63,7 +63,7 @@ function About() {
         <div className="-ml-12 -mt-12 p-12 lg:sticky lg:top-4 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:overflow-hidden">
           <img
             className="w-[48rem] max-w-none rounded-xl bg-gray-900 shadow-xl ring-1 ring-gray-400/10 sm:w-[57rem]"
-            src={Func2NameExample}
+            src={NJGExample}
             alt=""
           />
         </div>
@@ -72,11 +72,13 @@ function About() {
           <div className="lg:pr-4">
             <div className="max-w-xl text-base leading-7 text-gray-700 lg:max-w-lg">
               <h2 className="mt-16 text-2xl font-bold tracking-tight text-gray-900">
-                함수를 입력하기만 하면 함수명을 추천해드립니다.
+                음식을 보관하면, "냉장고를 부탁해"에 등록하세요!
               </h2>
               <p className="mt-6">
-                함수를 입력하고, 잠시 기다려주세요! <br />
-                ChatGPT가 추천해주는 함수명을 확인할 수 있습니다.
+                냉장고의 재고 파악, 유통기한 임박 알림, 레시피 추천까지! <br />
+                냉장고의 모든 것을 "냉장고를 부탁해"에서 해결하세요.
+                <br />
+                {/* 또한 ChatGPT 요리사가 추천해주는 레시피도 확인할 수 있습니다. */}
               </p>
             </div>
           </div>
@@ -84,7 +86,7 @@ function About() {
       </div>
 
       <h2 className="text-center text-2xl font-bold mt-10">
-        삶에 치여 너무 바쁜 당신을 위한 인공지능 코딩 서비스, FunctionConverter.
+        삶에 치여 너무 바쁜 당신을 위한 식품 재고관리 서비스, 냉장고를 부탁해.
       </h2>
     </div>
   );

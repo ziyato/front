@@ -1,84 +1,10 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { FaBell } from "react-icons/fa";
 import NoticeModal from "./NoticeModal/NoticeModal";
-import pic1 from "../assets/햇반.jpg";
-import pic2 from "../assets/카레.jpg";
-import pic3 from "../assets/된찌.jpg";
-import pic4 from "../assets/마라탕.jpg";
-import pic5 from "../assets/탕후루.jpg";
-function Header({ user }) {
+
+function Header({ user, notifications }) {
   const [showModal, setShowModal] = useState(false);
-  
-  const data = [
-    {
-      food_id: 1,
-      food_name: "햇반",
-      food_pic: pic1,
-      category: "밥",
-      food_amount: 1,
-      purchase_date: "2024-02-19T15:00:00.000Z",
-      expiration_date: "2024-12-11T15:00:00.000Z",
-      user_id: 4,
-    },
-    {
-      food_id: 2,
-      food_name: "카레이름",
-      food_pic: pic2,
-      category: "카테카테",
-      food_amount: 2,
-      purchase_date: "2024-04-09T15:00:00.000Z",
-      expiration_date: "2024-05-17T15:00:00.000Z",
-      user_id: 4,
-    },
-    {
-      food_id: 3,
-      food_name: "육회비빔밥",
-      food_pic: "",
-      category: "밥",
-      food_amount: 1,
-      purchase_date: "2024-05-17T15:00:00.000Z",
-      expiration_date: "2024-05-22T15:00:00.000Z",
-      user_id: 4,
-    },
-    {
-      food_id: 4,
-      food_name: "된장찌개",
-      food_pic: pic3,
-      category: "국",
-      food_amount: 1,
-      purchase_date: "2024-05-19T15:00:00.000Z",
-      expiration_date: "2024-06-20T15:00:00.000Z",
-      user_id: 4,
-    },
-    {
-      food_id: 5,
-      food_name: "마라탕",
-      food_pic: pic4,
-      category: "탕",
-      food_amount: 1,
-      purchase_date: "2024-05-15T15:00:00.000Z",
-      expiration_date: "2024-06-01T15:00:00.000Z",
-      user_id: 4,
-    },
-    {
-      food_id: 6,
-      food_name: "탕후루",
-      food_pic: pic5,
-      category: "간식",
-      food_amount: 4,
-      purchase_date: "2024-05-16T15:00:00.000Z",
-      expiration_date: "2024-05-25T15:00:00.000Z",
-      user_id: 4,
-    },
-  ];
-  const notifications = [
-    { food_name: "카레 이름", expiration_date: "2024-05-17" },
-    { food_name: "육회 비빔밥", expiration_date: "2024-05-22" },
-    { food_name: "된장찌개", expiration_date: "2024-06-20" },
-    { food_name: "마라탕", expiration_date: "2024-06-01" },
-    { food_name: "탕후루", expiration_date: "2024-05-25" },
-  ];
 
   function logout() {
     sessionStorage.removeItem("user");
@@ -113,12 +39,6 @@ function Header({ user }) {
               <Link to="/" className="font-semibold leading-6 text-gray-300">
                 나의 냉장고
               </Link>
-              {/*<Link
-                to="/login"
-                className=" font-semibold leading-6 text-gray-300"
-              >
-                Login
-  </Link>*/}
               <Link
                 to="/mypage"
                 className=" font-semibold leading-6 text-gray-300"
@@ -128,7 +48,10 @@ function Header({ user }) {
             </div>
           </div>
           <div className="flex flex-1 justify-end gap-7 items-center">
-            <div className="relative cursor-pointer" onClick={() => setShowModal(true)}>
+            <div
+              className="relative cursor-pointer"
+              onClick={() => setShowModal(true)}
+            >
               <FaBell className="text-gray-300" size={24} />
               {notifications.length > 0 && (
                 <span className="absolute top-0 right-0 inline-flex items-center justify-center h-5 w-5 text-xs font-bold leading-none text-white bg-red-600 rounded-full transform translate-x-2/3 -translate-y-2/3">
