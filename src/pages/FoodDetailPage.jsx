@@ -5,10 +5,10 @@ import "./FoodDetailPage.css";
 import CompleteModal from "../components/CompleteModal/CompleteModal.jsx";
 import { getFoodData, postFoodTips, putFoodData } from "../apis/getFoodAPI.js";
 
+
 const FoodDetailPage = ({ propsUserData }) => {
   const navigate = useNavigate();
   const { food_id } = useParams();
-
   const [foodDetail, setFoodDetail] = useState({});
   const [foodTip, setFoodTip] = useState();
   const [editableDetail, setEditableDetail] = useState({
