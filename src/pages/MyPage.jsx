@@ -1,41 +1,30 @@
 import React, { useEffect, useState } from "react";
-import "./MyPage.css"; // CSS 파일 import
+import { useNavigate } from "react-router-dom";
+import "./MyPage.css";
 import noImage from "../assets/noImage.jpeg";
 import CompleteModal from "../components/CompleteModal/CompleteModal.jsx";
 import { putUserProfile } from "../apis/getUserAPI.js";
-import { useNavigate } from "react-router-dom";
 
 const MyPage = ({ user }) => {
   const navigate = useNavigate();
+
   const [notificationOn, setNotificationOn] = useState(false);
   const [selectedDate, setSelectedDate] = useState(user?.alert_date || "");
-  const [photoURL, setPhotoURL] = useState(""); // 프로필 사진 상태 추가
+  const [photoURL, setPhotoURL] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
   const [pwInput, setPWInput] = useState();
   const [pwCheckInput, setPWCheckInput] = useState();
 
-  // 사진 변경 함수
   const handlePhotoUpload = (event) => {
     const file = event.target.files[0];
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setPhotoURL(reader.result); // 사진을 상태에 저장
+        setPhotoURL(reader.result);
       };
       reader.readAsDataURL(file);
     }
-  };
-
-  // 알림 설정 변경 함수
-  const toggleNotification = () => {
-    setNotificationOn((prevState) => !prevState);
-  };
-
-  // 알림 기준 일자 변경 함수
-  const handleDateChange = (event) => {
-    setSelectedDate(event.target.value);
-    console.log(selectedDate);
   };
 
   function modalOpen(message) {
@@ -47,7 +36,6 @@ const MyPage = ({ user }) => {
   }
 
   function changePW(user, pwInput, pwCheckInput) {
-    // 비밀번호 변경 로직
     if (pwInput == pwCheckInput) {
       putUserProfile(user.user_id, { password: pwInput }).then((response) => {
         console.log(response);
@@ -56,17 +44,19 @@ const MyPage = ({ user }) => {
         setPWCheckInput("");
       });
     } else {
-      modalOpen("비밀번호가 변경되었습니다.");
+      modalOpen("비밀번호 변경에 실패하였습니다.");
     }
   }
 
-  // 입력 값 변경 시 상태 업데이트 함수
   const handlePWInputChange = (e) => setPWInput(e.target.value);
   const handlePWCheckInputChange = (e) => setPWCheckInput(e.target.value);
 
   useEffect(() => {
     if (!user) {
       navigate("/login");
+    }
+    if (selectedDate) {
+      setNotificationOn(true);
     }
   }, []);
 
@@ -161,7 +151,7 @@ const MyPage = ({ user }) => {
               id="toggle"
               hidden
               checked={notificationOn}
-              onChange={toggleNotification}
+              onChange={() => setNotificationOn(!notificationOn)}
             />
             <label htmlFor="toggle" className="toggleSwitch">
               <span className="toggleButton"></span>
@@ -176,7 +166,7 @@ const MyPage = ({ user }) => {
                 id="notification-date"
                 className="date-select-box"
                 value={selectedDate}
-                onChange={handleDateChange}
+                onChange={(e) => setSelectedDate(e.target.value)}
               >
                 <option value="">선택하세요</option>
                 {Array.from({ length: 31 }, (_, i) => (
