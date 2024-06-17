@@ -24,9 +24,8 @@ export async function getLogin(username, password) {
 export async function getProfile(user_id) {
   try {
     const response = await axios.get(
-      `${REACT_APP_BACKEND_URL}/api/user/login/${user_id}`
+      `${REACT_APP_BACKEND_URL}/api/user/${user_id}`
     );
-
     return response.data;
   } catch (error) {
     console.error(error);

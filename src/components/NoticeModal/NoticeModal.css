@@ -1,7 +1,7 @@
 .modal_overlay {
   position: fixed;
-  top: 10%;
-  left: 55%;
+  top: 55px;
+  left: 45%;
   right: 0;
   bottom: 0;
   background-color: rgba(255, 255, 255, 0);
@@ -9,23 +9,20 @@
   align-items: flex-start;
   justify-content: center;
   z-index: 999;
-  
 }
 
 .modal {
   background-color: white;
-  padding: 40px;
-  border-radius: 10px;
+  padding: 10px 20px;
+  border-radius: 6px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-  max-height: 70vh; /* 최대 높이 설정 */
   overflow-y: auto; /* 세로 스크롤 활성화 */
+  max-height: 300px;
 }
 
 .modal-header {
-   /* 헤더를 고정합니다. */
-   /* 헤더를 화면의 맨 위에 고정합니다. */
   background-color: white; /* 헤더 배경을 흰색으로 유지합니다. */
-  padding: 20px 0; /* 헤더의 위아래 패딩을 조정합니다. */
+  padding: 15px 0 15px; /* 헤더의 위아래 패딩을 조정합니다. */
   z-index: 1; /* 헤더가 알림 모달 내용 위에 올 수 있도록 z-index를 설정합니다. */
   display: flex;
   justify-content: space-between;
@@ -35,7 +32,7 @@
 .close-button {
   background: none;
   border: 1px solid #ccc;
-  
+
   width: 30px;
   height: 30px;
   display: flex;
@@ -45,21 +42,12 @@
   font-size: 1.5rem;
 }
 
-.modal-content {
-  margin-top: 20px;
-  margin-right: 50px;
-
-}
-
-
 .notification {
-  padding: 20px; /* 기존 30px에서 20px로 조정 */
+  padding: 20px 40px; /* 기존 30px에서 20px로 조정 */
   margin-bottom: 10px;
   border: 1px solid #ccc;
-  border-radius: 8px;
-  font-size: 1rem; 
-  line-height: 1.5; 
+  border-radius: 4px;
+  font-size: 1rem;
+  line-height: 1.5;
   white-space: nowrap;
-  /*overflow: hidden; */
-  /*text-overflow: ellipsis;  */
 }

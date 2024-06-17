@@ -10,28 +10,50 @@ import FoodDetailPage from "./pages/FoodDetailPage.jsx";
 import About from "./pages/About.js";
 import RecipePage from "./pages/RecipePage.jsx";
 import NotFound from "./pages/NotFound.js";
+import { getAlertData } from "./apis/getFoodAPI.js";
 
 function UseSessionStorage(key) {
   const storedValue = sessionStorage.getItem(key);
-  console.log(storedValue);
   return storedValue ? JSON.parse(storedValue) : null;
 }
 
 function App() {
   const [user, setUser] = useState(null);
   const [recipeFood, setRecipeFood] = useState([]);
+  const [notifications, setNotifications] = useState([]);
 
-  useEffect(() => {
+  async function getAlertDataFromDB() {
+    try {
+      const alertData = await getAlertData(user.user_id, user.alert_date);
+      setNotifications(alertData);
+      return alertData;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+
+  function initializeUser() {
     const storedUser = UseSessionStorage("user");
     setUser(storedUser);
+  }
+
+  useEffect(() => {
+    initializeUser();
   }, []);
+
+  useEffect(() => {
+    if (user) {
+      getAlertDataFromDB();
+    }
+  }, [user]);
 
   return (
     <div className="App">
-      <Header user={user} />
-      <button className=" bg-cyan-500" onClick={() => setUser(userInfo)}>
+      <Header user={user} notifications={notifications} />
+      {/* <button className=" bg-cyan-500" onClick={() => setUser(userInfo)}>
         임시로그인
-      </button>
+      </button> */}
 
       <Routes>
         <Route
@@ -56,7 +78,7 @@ function App() {
 
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<RegisterUser />} />
-        <Route path="/mypage" element={<MyPage user={user} />} />
+        <Route path="/mypage" element={<MyPage user={user} initializeUser={initializeUser} />} />
 
         <Route path="*" element={<NotFound />} />
       </Routes>

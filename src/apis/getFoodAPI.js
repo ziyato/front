@@ -7,7 +7,6 @@ export async function getSearchFood(user_id, searchCategory, searchKeyword) {
     const response = await axios.get(
       `${REACT_APP_BACKEND_URL}/api/icebox/${user_id}?category=${searchCategory}&keyword=${searchKeyword}`
     );
-    console.log(response);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -20,7 +19,6 @@ export async function getFoodDataAll(user_id) {
     const response = await axios.get(
       `${REACT_APP_BACKEND_URL}/api/icebox/${user_id}`
     );
-    console.log(response);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -33,7 +31,6 @@ export async function getFoodData(user_id, food_id) {
     const response = await axios.get(
       `${REACT_APP_BACKEND_URL}/api/icebox/${user_id}/${food_id}`
     );
-    console.log(response);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -47,7 +44,6 @@ export async function postFoodData(user_id, data) {
       `${REACT_APP_BACKEND_URL}/api/icebox/${user_id}`,
       data
     );
-    console.log(response);
     return response;
   } catch (error) {
     console.error(error);
@@ -60,7 +56,6 @@ export async function deleteFoodData(user_id, food_id) {
     const response = await axios.delete(
       `${REACT_APP_BACKEND_URL}/api/icebox/${user_id}/${food_id}`
     );
-    console.log(response);
     return response;
   } catch (error) {
     console.error(error);
@@ -73,7 +68,6 @@ export async function postRecipe(data) {
     const response = await axios.post(`${REACT_APP_BACKEND_URL}/api/recipe`, {
       foods: data,
     });
-    console.log(response);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -89,7 +83,6 @@ export async function postFoodTips(data) {
         foods: data,
       }
     );
-    console.log(response);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -107,8 +100,19 @@ export async function putFoodData(user_id, food_id, data) {
         expiration_date: data.expiration_date,
       }
     );
-    console.log(response);
     return response;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
+export async function getAlertData(user_id, alert_date) {
+  try {
+    const response = await axios.get(
+      `${REACT_APP_BACKEND_URL}/api/alert/${user_id}?alertDate=${alert_date}`
+    );
+    return response.data;
   } catch (error) {
     console.error(error);
     throw error;
