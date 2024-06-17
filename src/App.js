@@ -8,7 +8,7 @@ import RegisterUser from "./pages/RegisterUser.js";
 import Login from "./pages/Login.js";
 import FoodDetailPage from "./pages/FoodDetailPage.jsx";
 import About from "./pages/About.js";
-import RecipePage from './pages/RecipePage.jsx';
+import RecipePage from "./pages/RecipePage.jsx";
 import NotFound from "./pages/NotFound.js";
 
 function UseSessionStorage(key) {
@@ -34,14 +34,29 @@ function App() {
       </button>
 
       <Routes>
-        <Route path="/" element={user ? <HomePage user={user} setRecipeFood={setRecipeFood} /> : <Login />} />
-        <Route path="/food/:food_id" element={<FoodDetailPage propsUserData={user}/>} />
-        <Route path="/recipe" element={<RecipePage recipeFood={recipeFood}/>} />
+        <Route
+          path="/"
+          element={
+            user ? (
+              <HomePage user={user} setRecipeFood={setRecipeFood} />
+            ) : (
+              <Login />
+            )
+          }
+        />
+        <Route
+          path="/food/:food_id"
+          element={<FoodDetailPage propsUserData={user} />}
+        />
+        <Route
+          path="/recipe"
+          element={<RecipePage recipeFood={recipeFood} />}
+        />
         <Route path="/about" element={<About />} />
 
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<RegisterUser />} />
-        <Route path="/mypage" element={<MyPage user={user}/>} />
+        <Route path="/mypage" element={<MyPage user={user} />} />
 
         <Route path="*" element={<NotFound />} />
       </Routes>

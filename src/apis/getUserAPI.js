@@ -53,3 +53,17 @@ export async function postRegister(data) {
     throw error;
   }
 }
+
+export async function putUserProfile(user_id, data) {
+  try {
+    const response = await axios.put(
+      `${REACT_APP_BACKEND_URL}/api/user/${user_id}`,
+      { password: data.password, alert_date: data.alert_date}
+    );
+
+    return response;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}

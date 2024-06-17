@@ -1,199 +1,194 @@
-import React, { useState } from "react";
-import "./MyPage.css"; // CSS 파일 import
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import "./MyPage.css";
 import noImage from "../assets/noImage.jpeg";
 import CompleteModal from "../components/CompleteModal/CompleteModal.jsx";
+import { putUserProfile } from "../apis/getUserAPI.js";
 
 const MyPage = ({ user }) => {
-  // 알림 설정 상태
+  const navigate = useNavigate();
+
   const [notificationOn, setNotificationOn] = useState(false);
-  const [selectedDate, setSelectedDate] = useState(user.alert_date || "");
-  const [nickname, setNickname] = useState("");
-  const [photoURL, setPhotoURL] = useState(""); // 프로필 사진 상태 추가
-  const [userData, setUserData] = useState({}); // 사용자 정보 상태 추가
+  const [alertDate, setAlertDate] = useState(user?.alert_date || "");
+  const [photoURL, setPhotoURL] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
+  const [pwInput, setPWInput] = useState();
+  const [pwCheckInput, setPWCheckInput] = useState();
 
-  const handleCancel = () => {
-    window.location.href = "/"; // 홈페이지로 이동
-  };
-
-  // 사진 변경 함수
   const handlePhotoUpload = (event) => {
     const file = event.target.files[0];
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setPhotoURL(reader.result); // 사진을 상태에 저장
+        setPhotoURL(reader.result);
       };
       reader.readAsDataURL(file);
     }
   };
 
-  // 알림 설정 변경 함수
-  const toggleNotification = () => {
-    setNotificationOn((prevState) => !prevState);
-  };
-
-  // 알림 기준 일자 변경 함수
-  const handleDateChange = (event) => {
-    setSelectedDate(event.target.value);
-    console.log(selectedDate)
-  };
-
-  const handleSave = () => {
-    // 저장 로직
-    setSuccessMessage("저장이 완료되었습니다.");
+  function modalOpen(message) {
+    setSuccessMessage(message);
     setIsModalOpen(true);
     setTimeout(() => {
-      setIsModalOpen(false); 
+      setIsModalOpen(false);
     }, 1000);
-  };
+  }
+
+  function changePW(user, pwInput, pwCheckInput) {
+    if (pwInput == pwCheckInput) {
+      putUserProfile(user.user_id, {
+        password: pwInput,
+        alert_date: alertDate,
+      }).then((response) => {
+        console.log(response);
+        modalOpen("비밀번호가 변경되었습니다.");
+        setPWInput("");
+        setPWCheckInput("");
+      });
+    } else {
+      modalOpen("비밀번호 변경에 실패하였습니다.");
+    }
+  }
+
+  const handlePWInputChange = (e) => setPWInput(e.target.value);
+  const handlePWCheckInputChange = (e) => setPWCheckInput(e.target.value);
+
+  useEffect(() => {
+    if (!user) {
+      navigate("/login");
+    }
+    if (alertDate) {
+      setNotificationOn(true);
+    }
+  }, []);
 
   return (
     <>
-    <div className="my-page-container">
-      {/* 위에 있는 행 (left-section과 right-section) */}
-      <div className="flex">
-        {/* 왼쪽 섹션 */}
-        <div className="left-section">
-          <div className="user-photo">
-            <img
-              src={user.profile_pic || photoURL || noImage}
-              alt="프로필 사진"
+      <div className="my-page-container">
+        <h1 className="text-3xl mt-5 w-full font-bold border-b-2 border-slate-300 pb-5">
+          내 정보
+        </h1>
+        <div className="flex">
+          {/* 왼쪽 섹션 */}
+          <div className="left-section">
+            <div className="user-photo">
+              <img
+                src={user?.profile_pic || photoURL || noImage}
+                alt="프로필 사진"
+              />
+            </div>
+            <input
+              type="file"
+              accept="image/jpeg,image/png"
+              className="file-input"
+              onChange={handlePhotoUpload}
             />
+            <button
+              className="change-photo-btn"
+              onClick={() => document.querySelector(".file-input").click()}
+            >
+              파일 선택
+            </button>
           </div>
-          <input
-            type="file"
-            accept="image/jpeg,image/png"
-            className="file-input"
-            onChange={handlePhotoUpload}
-          />
+
+          {/* 오른쪽 섹션 */}
+          <div className="right-section">
+            <div className="flex flex-col items-center space-y-20">
+              <div className="flex flex-col gap-4">
+                <InputForm
+                  title="이름"
+                  name="username"
+                  inputValue={user?.username}
+                />
+                <InputForm
+                  title="아이디"
+                  name="email"
+                  inputValue={user?.email}
+                />
+                <InputForm
+                  title="비밀번호 수정"
+                  name="password"
+                  type="password"
+                  handleChange={handlePWInputChange}
+                  inputValue={pwInput}
+                />
+                <InputForm
+                  title="비밀번호 확인"
+                  name="password"
+                  type="password"
+                  handleChange={handlePWCheckInputChange}
+                  inputValue={pwCheckInput}
+                />
+                <InputForm
+                  title="가입 일자"
+                  name="join_date"
+                  inputValue={user?.join_date.slice(0, 10)}
+                  isReadOnly={true}
+                />
+                <div className="mt-2 flex place-items-center">
+                  <div className="min-w-32 text-right pr-5">알림 설정</div>
+                  <div className="relative mt-2">
+                    <input
+                      type="checkbox"
+                      id="toggle"
+                      hidden
+                      checked={notificationOn}
+                      onChange={() => setNotificationOn(!notificationOn)}
+                    />
+                    <label htmlFor="toggle" className="toggleSwitch">
+                      <span className="toggleButton"></span>
+                    </label>
+                  </div>
+                </div>
+
+                {notificationOn && (
+                  <div className="mt-2 flex place-items-center">
+                    <div className="min-w-32 text-right mt-2 pr-5">
+                      알림 기준일
+                    </div>
+                    <div className="relative mt-2">
+                      <select
+                        id="notification-date"
+                        className="date-select-box"
+                        value={alertDate}
+                        onChange={(e) => setAlertDate(e.target.value)}
+                      >
+                        <option value="">선택하세요</option>
+                        {Array.from({ length: 31 }, (_, i) => (
+                          <option key={i + 1} value={i + 1}>
+                            {i + 1}일
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="flex justify-center mt-6 mb-20">
           <button
-            className="change-photo-btn"
-            onClick={() => document.querySelector(".file-input").click()}
+            className="cancel-button mr-6 w-20 h-11"
+            onClick={() => navigate("/")}
           >
-            파일 선택
+            취소
+          </button>
+          <button
+            className="save-button w-20 h-11"
+            onClick={() => changePW(user, pwInput, pwCheckInput)}
+          >
+            저장
           </button>
         </div>
-
-        {/* 오른쪽 섹션 */}
-        <div className="right-section">
-          <div className="flex flex-col items-center space-y-20">
-            {" "}
-            {/* 수정된 부분 */}
-            {/* 사용자 정보 세로로 표시 */}
-            <h1 className="text-3xl w-full font-bold border-b-2 border-slate-300 pb-5 mb-5">
-              내 정보
-            </h1>
-            {/* 내 정보와 이름 사이에 가느다란 긴 회색 가로줄 추가 */}
-            <div className="flex flex-col gap-4">
-              <InputForm
-                title="이름"
-                name="username"
-                inputValue={user.username}
-                // handleChange={handleInputChange}
-              />
-              <InputForm
-                title="아이디"
-                name="email"
-                // handleChange={handleInputFrameworkChange}
-                inputValue={user.email}
-                
-              />
-              <InputForm
-                title="비밀번호 수정"
-                name="password"
-                type="password"
-                // handleChange={setInputEtcChange}
-                // inputValue={inputEtc}
-              />
-              <InputForm
-                title="비밀번호 확인"
-                name="password"
-                type="password"
-                // handleChange={setInputEtcChange}
-                // inputValue={inputEtc}
-              />
-              <InputForm
-                title="가입 일자"
-                name="password"
-                // handleChange={setInputEtcChange}
-                inputValue={user.join_date.slice(0, 10)}
-                isReadOnly={true}
-              />
-
-              {/* <div className="flex items-center gap-2">
-                <InputForm
-                  title="닉네임"
-                  name="nickname"
-                  handleChange={(e) => setNickname(e.target.value)}
-                  inputValue={nickname}
-                />
-              </div> */}
-            </div>
-            <div className="flex justify-end w-full">
-              {/* 수정된 부분 */}
-              <button
-                className="cancel-button mr-2 w-16 h-10"
-                onClick={handleCancel}
-              >
-                취소
-              </button>
-              <button 
-              className="save-button w-16 h-10"
-              onClick={handleSave}>저장</button>
-            </div>
-          </div>
-        </div>
       </div>
-
-      {/* 회색 가로선으로 구분 */}
-      <hr className="border-t border-gray-300 my-10" />
-      {/* 아래에 있는 행 (알림 설정) */}
-      <div className="flex flex-col items-center notification-settings">
-        {/* 수정된 부분 */}
-        <h2 className="text-xl font-bold mr-5">알림 설정</h2>
-        <div className="relative mt-2">
-          <input
-            type="checkbox"
-            id="toggle"
-            hidden
-            checked={notificationOn}
-            onChange={toggleNotification}
-          />
-          <label htmlFor="toggle" className="toggleSwitch">
-            <span className="toggleButton"></span>
-          </label>
-        </div>
-        {notificationOn && (
-          <div className="date-select-container">
-            <label htmlFor="notification-date" className="date-select-label">
-              알림 기준 일자
-            </label>
-            <select
-              id="notification-date"
-              className="date-select-box"
-              value={selectedDate}
-              onChange={handleDateChange}
-            >
-              <option value="">선택하세요</option>
-              {Array.from({ length: 31 }, (_, i) => (
-                <option key={i + 1} value={i + 1}>
-                  {i + 1}일
-                </option>
-              ))}
-            </select>
-          </div>
-        )}
-      </div>
-    </div>
-    {/* 모달창 */}
-    <CompleteModal
-    isModalOpen={isModalOpen}
-    message={successMessage}
-    onClose={() => setIsModalOpen(false)} 
-    />
-  </>
+      <CompleteModal
+        isModalOpen={isModalOpen}
+        message={successMessage}
+        onClose={() => setIsModalOpen(false)}
+      />
+    </>
   );
 };
 
@@ -205,7 +200,6 @@ function InputForm({
   type = "text",
   isReadOnly = false,
 }) {
-  // type = type || "text";
   return (
     <div className="mt-2 flex place-items-center">
       <div className="min-w-32 text-right pr-5">{title}</div>

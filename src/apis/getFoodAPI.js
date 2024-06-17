@@ -96,3 +96,21 @@ export async function postFoodTips(data) {
     throw error;
   }
 }
+
+export async function putFoodData(user_id, food_id, data) {
+  try {
+    const response = await axios.put(
+      `${REACT_APP_BACKEND_URL}/api/icebox/${user_id}/${food_id}`,
+      {
+        food_amount: data.food_amount,
+        purchase_date: data.purchase_date,
+        expiration_date: data.expiration_date,
+      }
+    );
+    console.log(response);
+    return response;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
