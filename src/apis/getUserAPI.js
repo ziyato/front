@@ -58,7 +58,7 @@ export async function putUserProfile(user_id, data) {
   try {
     const response = await axios.put(
       `${REACT_APP_BACKEND_URL}/api/user/${user_id}`,
-      { password: data.password }
+      { password: data.password, alert_date: data.alert_date}
     );
 
     return response;

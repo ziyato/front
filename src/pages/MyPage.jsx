@@ -9,7 +9,7 @@ const MyPage = ({ user }) => {
   const navigate = useNavigate();
 
   const [notificationOn, setNotificationOn] = useState(false);
-  const [selectedDate, setSelectedDate] = useState(user?.alert_date || "");
+  const [alertDate, setAlertDate] = useState(user?.alert_date || "");
   const [photoURL, setPhotoURL] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
@@ -37,7 +37,10 @@ const MyPage = ({ user }) => {
 
   function changePW(user, pwInput, pwCheckInput) {
     if (pwInput == pwCheckInput) {
-      putUserProfile(user.user_id, { password: pwInput }).then((response) => {
+      putUserProfile(user.user_id, {
+        password: pwInput,
+        alert_date: alertDate,
+      }).then((response) => {
         console.log(response);
         modalOpen("비밀번호가 변경되었습니다.");
         setPWInput("");
@@ -55,7 +58,7 @@ const MyPage = ({ user }) => {
     if (!user) {
       navigate("/login");
     }
-    if (selectedDate) {
+    if (alertDate) {
       setNotificationOn(true);
     }
   }, []);
@@ -63,6 +66,9 @@ const MyPage = ({ user }) => {
   return (
     <>
       <div className="my-page-container">
+        <h1 className="text-3xl mt-5 w-full font-bold border-b-2 border-slate-300 pb-5">
+          내 정보
+        </h1>
         <div className="flex">
           {/* 왼쪽 섹션 */}
           <div className="left-section">
@@ -89,9 +95,6 @@ const MyPage = ({ user }) => {
           {/* 오른쪽 섹션 */}
           <div className="right-section">
             <div className="flex flex-col items-center space-y-20">
-              <h1 className="text-3xl w-full font-bold border-b-2 border-slate-300 pb-5 mb-5">
-                내 정보
-              </h1>
               <div className="flex flex-col gap-4">
                 <InputForm
                   title="이름"
@@ -123,60 +126,61 @@ const MyPage = ({ user }) => {
                   inputValue={user?.join_date.slice(0, 10)}
                   isReadOnly={true}
                 />
-              </div>
-              <div className="flex justify-end w-full">
-                <button
-                  className="cancel-button mr-2 w-16 h-10"
-                  onClick={() => navigate("/")}
-                >
-                  취소
-                </button>
-                <button
-                  className="save-button w-16 h-10"
-                  onClick={() => changePW(user, pwInput, pwCheckInput)}
-                >
-                  저장
-                </button>
+                <div className="mt-2 flex place-items-center">
+                  <div className="min-w-32 text-right pr-5">알림 설정</div>
+                  <div className="relative mt-2">
+                    <input
+                      type="checkbox"
+                      id="toggle"
+                      hidden
+                      checked={notificationOn}
+                      onChange={() => setNotificationOn(!notificationOn)}
+                    />
+                    <label htmlFor="toggle" className="toggleSwitch">
+                      <span className="toggleButton"></span>
+                    </label>
+                  </div>
+                </div>
+
+                {notificationOn && (
+                  <div className="mt-2 flex place-items-center">
+                    <div className="min-w-32 text-right mt-2 pr-5">
+                      알림 기준일
+                    </div>
+                    <div className="relative mt-2">
+                      <select
+                        id="notification-date"
+                        className="date-select-box"
+                        value={alertDate}
+                        onChange={(e) => setAlertDate(e.target.value)}
+                      >
+                        <option value="">선택하세요</option>
+                        {Array.from({ length: 31 }, (_, i) => (
+                          <option key={i + 1} value={i + 1}>
+                            {i + 1}일
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>
         </div>
-
-        <hr className="border-t border-gray-300 my-10" />
-        <div className="flex flex-col items-center notification-settings">
-          <h2 className="text-xl font-bold mr-5">알림 설정</h2>
-          <div className="relative mt-2">
-            <input
-              type="checkbox"
-              id="toggle"
-              hidden
-              checked={notificationOn}
-              onChange={() => setNotificationOn(!notificationOn)}
-            />
-            <label htmlFor="toggle" className="toggleSwitch">
-              <span className="toggleButton"></span>
-            </label>
-          </div>
-          {notificationOn && (
-            <div className="date-select-container">
-              <label htmlFor="notification-date" className="date-select-label">
-                알림 기준 일자
-              </label>
-              <select
-                id="notification-date"
-                className="date-select-box"
-                value={selectedDate}
-                onChange={(e) => setSelectedDate(e.target.value)}
-              >
-                <option value="">선택하세요</option>
-                {Array.from({ length: 31 }, (_, i) => (
-                  <option key={i + 1} value={i + 1}>
-                    {i + 1}일
-                  </option>
-                ))}
-              </select>
-            </div>
-          )}
+        <div className="flex justify-center mt-6 mb-20">
+          <button
+            className="cancel-button mr-6 w-20 h-11"
+            onClick={() => navigate("/")}
+          >
+            취소
+          </button>
+          <button
+            className="save-button w-20 h-11"
+            onClick={() => changePW(user, pwInput, pwCheckInput)}
+          >
+            저장
+          </button>
         </div>
       </div>
       <CompleteModal

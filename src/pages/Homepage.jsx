@@ -109,8 +109,6 @@ const HomePage = ({ user, setRecipeFood }) => {
       {/* <button className="bg-amber-500" onClick={() => setItems(data)}>
         임시 음식 추가
       </button> */}
-      <button onClick={() => console.log(selectedFoodNames)}>'음식이름'</button>
-      <button onClick={() => console.log(selectedFoodID)}>'음식ID'</button>
       <div className="searchSection">
         {/* 검색 기준 선택할 수 있는 드롭다운 */}
         <select
