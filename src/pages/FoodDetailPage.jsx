@@ -58,10 +58,19 @@ const FoodDetailPage = ({ propsUserData }) => {
       food_amount: parseInt(editableDetail.food_amount, 10),
       purchase_date: editableDetail.purchase_date,
       expiration_date: editableDetail.expiration_date,
-    }).then((response) => {
-      console.log(response);
-      modalOpen("수정이 완료되었습니다.");
-    });
+    })
+      .then((response) => {
+        console.log(response);
+        modalOpen("수정이 완료되었습니다.");
+      })
+      .then(() => {
+        return new Promise((resolve) => {
+          setTimeout(resolve, 1000); // 1000ms 지연
+        });
+      })
+      .then(() => {
+        navigate("/");
+      });
   };
 
   const handleInputChange = (e) => {
