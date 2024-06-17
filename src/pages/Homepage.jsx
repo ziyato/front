@@ -8,11 +8,11 @@ import {
   getFoodDataAll,
   getSearchFood,
 } from "../apis/getFoodAPI.js";
-// import pic1 from "../assets/햇반.jpg";
-// import pic2 from "../assets/카레.jpg";
-// import pic3 from "../assets/된찌.jpg";
-// import pic4 from "../assets/마라탕.jpg";
-// import pic5 from "../assets/탕후루.jpg";
+import pic1 from "../assets/햇반.jpg";
+import pic2 from "../assets/카레.jpg";
+import pic3 from "../assets/된찌.jpg";
+import pic4 from "../assets/마라탕.jpg";
+import pic5 from "../assets/탕후루.jpg";
 
 const HomePage = ({ user, setRecipeFood }) => {
   const navigate = useNavigate(); // useNavigate 훅 사용
@@ -106,9 +106,9 @@ const HomePage = ({ user, setRecipeFood }) => {
 
   return (
     <div className="HomePage">
-      {/* <button className="bg-amber-500" onClick={() => setItems(data)}>
+     <button className="bg-amber-500" onClick={() => setItems(data)}>
         임시 음식 추가
-      </button> */}
+      </button>
       <div className="searchSection">
         {/* 검색 기준 선택할 수 있는 드롭다운 */}
         <select
@@ -188,66 +188,66 @@ const HomePage = ({ user, setRecipeFood }) => {
 };
 export default HomePage;
 
-// // 식품 데이터 예시
-// export const data = [
-//   {
-//     food_id: 1,
-//     food_name: "햇반",
-//     food_pic: pic1,
-//     category: "밥",
-//     food_amount: 1,
-//     purchase_date: "2024-02-19T15:00:00.000Z",
-//     expiration_date: "2024-12-11T15:00:00.000Z",
-//     user_id: 4,
-//   },
-//   {
-//     food_id: 2,
-//     food_name: "카레이름",
-//     food_pic: pic2,
-//     category: "카테카테",
-//     food_amount: 2,
-//     purchase_date: "2024-04-09T15:00:00.000Z",
-//     expiration_date: "2024-05-17T15:00:00.000Z",
-//     user_id: 4,
-//   },
-//   {
-//     food_id: 3,
-//     food_name: "육회비빔밥",
-//     food_pic: "",
-//     category: "밥",
-//     food_amount: 1,
-//     purchase_date: "2024-05-17T15:00:00.000Z",
-//     expiration_date: "2024-05-22T15:00:00.000Z",
-//     user_id: 4,
-//   },
-//   {
-//     food_id: 4,
-//     food_name: "된장찌개",
-//     food_pic: pic3,
-//     category: "국",
-//     food_amount: 1,
-//     purchase_date: "2024-05-19T15:00:00.000Z",
-//     expiration_date: "2024-06-07T15:00:00.000Z",
-//     user_id: 4,
-//   },
-//   {
-//     food_id: 5,
-//     food_name: "마라탕",
-//     food_pic: pic4,
-//     category: "탕",
-//     food_amount: 1,
-//     purchase_date: "2024-05-15T15:00:00.000Z",
-//     expiration_date: "2024-06-01T15:00:00.000Z",
-//     user_id: 4,
-//   },
-//   {
-//     food_id: 6,
-//     food_name: "탕후루",
-//     food_pic: pic5,
-//     category: "간식",
-//     food_amount: 4,
-//     purchase_date: "2024-05-16T15:00:00.000Z",
-//     expiration_date: "2024-05-25T15:00:00.000Z",
-//     user_id: 4,
-//   },
-// ];
+// 식품 데이터 예시
+export const data = [
+  {
+    food_id: 1,
+    food_name: "햇반",
+    food_pic: pic1,
+    category: "밥",
+    food_amount: 1,
+    purchase_date: "2024-02-19T15:00:00.000Z",
+    expiration_date: "2024-12-11T15:00:00.000Z",
+    user_id: 4,
+  },
+  {
+    food_id: 2,
+    food_name: "카레이름",
+    food_pic: pic2,
+    category: "카테카테",
+    food_amount: 2,
+    purchase_date: "2024-04-09T15:00:00.000Z",
+    expiration_date: "2024-05-17T15:00:00.000Z",
+    user_id: 4,
+  },
+  {
+    food_id: 3,
+    food_name: "육회비빔밥",
+    food_pic: "",
+    category: "밥",
+    food_amount: 1,
+    purchase_date: "2024-05-17T15:00:00.000Z",
+    expiration_date: "2024-05-22T15:00:00.000Z",
+    user_id: 4,
+  },
+  {
+    food_id: 4,
+    food_name: "된장찌개",
+    food_pic: pic3,
+    category: "국",
+    food_amount: 1,
+    purchase_date: "2024-05-19T15:00:00.000Z",
+    expiration_date: "2024-06-20T15:00:00.000Z",
+    user_id: 4,
+  },
+  {
+    food_id: 5,
+    food_name: "마라탕",
+    food_pic: pic4,
+    category: "탕",
+    food_amount: 1,
+    purchase_date: "2024-05-15T15:00:00.000Z",
+    expiration_date: "2024-06-01T15:00:00.000Z",
+    user_id: 4,
+  },
+  {
+    food_id: 6,
+    food_name: "탕후루",
+    food_pic: pic5,
+    category: "간식",
+    food_amount: 4,
+    purchase_date: "2024-05-16T15:00:00.000Z",
+    expiration_date: "2024-05-25T15:00:00.000Z",
+    user_id: 4,
+  },
+];
