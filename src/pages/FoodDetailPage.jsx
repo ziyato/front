@@ -26,7 +26,7 @@ const FoodDetailPage = ({ propsUserData }) => {
     if (!propsUserData) {
       navigate("/login");
     }
-    getFoodData(propsUserData.user_id, food_id).then((response) => {
+    getFoodData(propsUserData?.user_id, food_id).then((response) => {
       console.log(
         `${propsUserData.username}님의 ${food_id}번 음식 : `,
         response[0]
@@ -38,7 +38,6 @@ const FoodDetailPage = ({ propsUserData }) => {
         expiration_date: response[0].expiration_date,
       });
     });
-
   }, []);
 
   // food_id에 해당하는 데이터를 가져오는 함수
